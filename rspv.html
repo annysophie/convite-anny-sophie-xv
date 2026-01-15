@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Entrada - Anny Sophie XV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;font-family:Montserrat,Arial,sans-serif;background:#071422;color:#fff;text-align:center}
+    .wrap{max-width:820px;margin:0 auto;padding:22px}
+    h1{font-family:"Playfair Display",serif;color:#d4af37;margin:10px 0 6px}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(212,175,55,.22);border-radius:18px;padding:18px;margin:14px auto;max-width:560px;backdrop-filter:blur(10px)}
+    #qrcode{display:flex;justify-content:center;margin-top:14px}
+    .muted{opacity:.85;font-size:14px;line-height:1.35}
+    .id{margin-top:10px;font-size:13px;opacity:.85}
+    .btn{display:inline-block;margin-top:14px;padding:12px 18px;border-radius:999px;border:1px solid rgba(212,175,55,.35);background:rgba(0,0,0,.25);color:#fff;text-decoration:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Anny Sophie XV</h1>
+
+  <div class="card">
+    <div style="font-size:16px"><b>Convidado:</b> <span id="nome">Carregando...</span></div>
+    <div class="muted" style="margin-top:8px">
+      Apresente este QR Code na recepcao para confirmar sua entrada.
+    </div>
+
+    <div id="qrcode"></div>
+    <div class="id">ID: <span id="idtxt">-</span></div>
+
+    <a class="btn" id="btnSalvar" href="#" download="qr-convidado.png">Salvar QR</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script>
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbznOicmuthK8jblVeF_xVVAn9bDMemgTr2dyTi3bO2uJXVsg6XXWXRiZKfP-seXfx0x/exec";
+
+function getParam(name){
+  var u = new URL(location.href);
+  return u.searchParams.get(name) || "";
+}
+
+(async function(){
+  var id = getParam("id");
+  document.getElementById("idtxt").textContent = id || "-";
+
+  if(!id){
+    document.getElementById("nome").textContent = "Faltou o parametro ?id=ASXV-0001";
+    document.getElementById("btnSalvar").style.display = "none";
+    return;
+  }
+
+  // buscar nome real do convidado
+  var r = await fetch(ENDPOINT + "?action=getGuest&id=" + encodeURIComponent(id));
+  var j = await r.json();
+
+  if(!j.ok){
+    document.getElementById("nome").textContent = "ID nao encontrado";
+    document.getElementById("btnSalvar").style.display = "none";
+    return;
+  }
+
+  document.getElementById("nome").textContent = (j.nome||"") + " " + (j.sobrenome||"");
+
+  var el = document.getElementById("qrcode");
+  el.innerHTML = "";
+  // QR contem somente o ID (ideal para o check-in)
+  new QRCode(el, { text: id, width: 230, height: 230 });
+
+  // permitir salvar o QR como PNG
+  setTimeout(function(){
+    var img = el.querySelector("img");
+    if(img){
+      document.getElementById("btnSalvar").href = img.src;
+    }
+  }, 400);
+})();
+</script>
+</body>
+</html>
