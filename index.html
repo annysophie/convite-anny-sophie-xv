@@ -5,77 +5,122 @@
   <title>Anny Sophie • 15 Anos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fontes -->
+  <!-- Fontes elegantes -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(180deg, #0b1c2d, #132f4c);
+      background: radial-gradient(1200px 800px at 50% 0%, #0b1a2d 0%, #071422 70%);
       color: #fff;
       text-align: center;
+      padding-bottom: 40px;
     }
 
     header {
-      padding: 50px 20px 30px;
+      padding: 50px 20px 25px;
     }
 
-    header img {
-      max-width: 520px;
+    /* Imagem do convite */
+    .convite-img {
+      max-width: 560px;
       width: 100%;
-      border-radius: 18px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      margin-bottom: 30px;
+      border-radius: 20px;
+      box-shadow: 0 22px 48px rgba(0,0,0,0.55);
+      margin: 0 auto 28px;
+      display: block;
+      border: 1px solid rgba(212,175,55,0.25);
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-bottom: 14px;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3em;
       color: #d4af37;
-      margin-bottom: 10px;
+      margin: 10px 0 8px;
     }
 
     h2 {
       font-weight: 300;
-      margin-bottom: 20px;
+      margin: 0 0 18px;
       opacity: 0.9;
     }
 
     .section {
       background: rgba(255,255,255,0.06);
-      margin: 20px auto;
-      padding: 30px;
+      margin: 16px auto;
+      padding: 26px;
       border-radius: 20px;
-      max-width: 700px;
+      max-width: 760px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+      border: 1px solid rgba(212,175,55,0.18);
     }
 
     .section h3 {
       color: #d4af37;
       font-family: 'Playfair Display', serif;
-      margin-bottom: 15px;
+      margin: 0 0 14px;
+      font-size: 1.4em;
+    }
+
+    .section p {
+      margin: 0;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .btn-row{
+      display:flex;
+      gap:12px;
+      flex-wrap: wrap;
+      justify-content:center;
+      margin-top: 14px;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 15px;
-      padding: 14px 30px;
-      border-radius: 30px;
+      margin-top: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
       background: linear-gradient(135deg, #d4af37, #f5e7a1);
       color: #0b1c2d;
       text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+      font-weight: 700;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+      border: none;
+      cursor: pointer;
     }
 
-    .btn:hover {
-      opacity: 0.95;
+    .btn:hover { opacity: 0.95; }
+
+    .btn.secondary{
+      background: rgba(0,0,0,0.18);
+      color: #fff;
+      border: 1px solid rgba(212,175,55,0.45);
+      box-shadow: none;
     }
 
     footer {
-      margin: 50px 0 30px;
-      font-size: 0.9em;
-      opacity: 0.7;
+      margin: 36px 0 10px;
+      font-size: 0.95em;
+      opacity: 0.75;
+    }
+
+    /* Responsivo */
+    @media (max-width: 520px){
+      h1{ font-size: 2.2em; }
+      .section{ margin: 14px 14px; padding: 22px; }
     }
   </style>
 </head>
@@ -83,8 +128,10 @@
 <body>
 
 <header>
-  <!-- IMAGEM DO CONVITE -->
-  <img src="convite.jpg" alt="Convite Anny Sophie">
+  <div class="tag">Convite Digital • Tema: Bela e a Fera</div>
+
+  <!-- ✅ IMAGEM: precisa estar em /imagens/convite.jpg -->
+  <img class="convite-img" src="imagens/convite.jpg" alt="Convite Anny Sophie">
 
   <h1>Anny Sophie</h1>
   <h2>15 Anos • 07 de Fevereiro de 2026 • 20h</h2>
@@ -101,59 +148,43 @@
 <div class="section">
   <h3>📍 Local</h3>
   <p><strong>Buffet Villa Bissou</strong></p>
-  <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Buffet+Villa+Bissou" target="_blank">
-    Abrir no Mapa
-  </a>
+  <div class="btn-row">
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Buffet+Villa+Bissou" target="_blank">Abrir no Mapa</a>
+  </div>
 </div>
 
 <div class="section">
   <h3>👗 Dress Code</h3>
-  <p>Traje Esporte Fino</p>
-  <a class="btn" href="dresscode.jpg" target="_blank">
-    Ver Dress Code
-  </a>
+  <p>Traje Esporte Fino / Festa Elegante</p>
+  <div class="btn-row">
+    <!-- ✅ IMAGEM: precisa estar em /imagens/dresscode.jpg -->
+    <a class="btn" href="imagens/dresscode.jpg" target="_blank">Ver Dress Code</a>
+  </div>
 </div>
 
 <div class="section">
   <h3>🎁 Sugestão de Presente</h3>
   <p>
     Sua presença é o nosso maior presente 💙<br><br>
-    Caso deseje presentear:
-    <br><br>
-    <strong>Pix:</strong> 16 99633-2019 (NuBank)
-    <br><br>
-    Sugestões:
-    Livros • Maquiagem • Roupas tamanho P<br>
-    Sapato 36 • Itens para ballet
+    Caso deseje presentear:<br>
+    <strong>Pix:</strong> 16 99633-2019 (NuBank)<br><br>
+    Sugestões: Livros • Maquiagem • Roupas tamanho P • Sapato 36 • Itens para ballet
   </p>
-  <a class="btn" href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie" target="_blank">
-    Falar sobre Presentes
-  </a>
-</div>
-
-<div class="section">
-  <h3>📸 Álbum da Festa</h3>
-  <p>
-    Durante e após a festa, escaneie o QR Code disponível nas mesas
-    para enviar suas fotos e vídeos.
-  </p>
-</div>
-
-<div class="section">
-  <h3>💌 Livro de Mensagens</h3>
-  <p>
-    Deixe sua mensagem especial para a Anny Sophie — em texto ou vídeo.
-  </p>
+  <div class="btn-row">
+    <a class="btn secondary" href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie" target="_blank">
+      Falar sobre Presentes (WhatsApp)
+    </a>
+  </div>
 </div>
 
 <div class="section">
   <h3>✅ Confirmação de Presença</h3>
-  <p>
-    Confirmação até <strong>30/01/2026</strong>.
-  </p>
-  <a class="btn" href="https://wa.me/5516996332019?text=Confirmo%20minha%20presença%20no%20XV%20da%20Anny%20Sophie%20em%2007/02/2026.%20Nome:" target="_blank">
-    Confirmar Presença
-  </a>
+  <p>Confirmação até <strong>30/01/2026</strong>.</p>
+  <div class="btn-row">
+    <a class="btn" href="https://wa.me/5516996332019?text=Confirmo%20minha%20presença%20no%20XV%20da%20Anny%20Sophie%20em%2007/02/2026.%20Nome:" target="_blank">
+      Confirmar Presença
+    </a>
+  </div>
 </div>
 
 <footer>
