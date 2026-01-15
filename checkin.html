@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Check-in • Anny Sophie XV</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:#071422;color:#fff}
+    .wrap{max-width:900px;margin:0 auto;padding:18px}
+    h1{margin:10px 0;color:#d4af37}
+    #reader{width:100%;max-width:520px;margin:14px auto;background:#000;border-radius:14px;overflow:hidden}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(212,175,55,.22);border-radius:14px;padding:14px;margin:14px auto;max-width:520px}
+    .ok{color:#7CFF9E} .bad{color:#FF9A9A}
+    button{padding:12px 14px;border-radius:999px;border:1px solid rgba(212,175,55,.35);background:rgba(0,0,0,.25);color:#fff;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Check-in • Anny Sophie XV</h1>
+    <p style="opacity:.85">Aponte a câmera para o QR Code do convidado. O sistema marcará “PRESENTE” na planilha.</p>
+
+    <div id="reader"></div>
+
+    <div class="card">
+      <div><strong>Status:</strong> <span id="status">Aguardando leitura…</span></div>
+      <div style="margin-top:8px;opacity:.85"><strong>ID lido:</strong> <span id="idLido">—</span></div>
+      <div style="margin-top:8px;opacity:.85"><strong>Convidado:</strong> <span id="nome">—</span></div>
+      <div style="margin-top:12px;">
+        <button onclick="location.reload()">Reiniciar câmera</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+  <script>
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbxGldzSFauRNImrhQ7ZAEvxC4pAPp2LAPsGhf4UnOUlu7U8oMDfHKdDwczQcoOekQPC/exec";
+
+    const statusEl = document.getElementById("status");
+    const idEl = document.getElementById("idLido");
+    const nomeEl = document.getElementById("nome");
+
+    const qr = new Html5Qrcode("reader");
+
+    async function marcarPresenca(id){
+      idEl.textContent = id;
+      statusEl.textContent = "Marcando presença…";
+
+      try{
+        const url = ENDPOINT + "?action=checkin&id=" + encodeURIComponent(id);
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        if(data.ok){
+          statusEl.innerHTML = '<span class="ok">PRESENTE ✅</span>';
+          nomeEl.textContent = (data.nome || "") + " " + (data.sobrenome || "");
+        }else{
+          statusEl.innerHTML = '<span class="bad">NÃO ENCONTRADO ❌</span>';
+          nomeEl.textContent = "—";
+        }
+      }catch(e){
+        statusEl.innerHTML = '<span class="bad">ERRO AO MARCAR ❌</span>';
+      }
+    }
+
+    qr.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      async (decodedText) => {
+        await marcarPresenca(decodedText.trim());
+      },
+      () => {}
+    ).catch(() => {
+      statusEl.innerHTML = '<span class="bad">Não consegui abrir a câmera.</span>';
+    });
+  </script>
+</body>
+</html>
