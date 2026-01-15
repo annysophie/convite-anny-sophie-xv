@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Lista • Anny Sophie XV</title>
+  <style>
+    body{margin:0;font-family:Arial,sans-serif;background:#071422;color:#fff}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    h1{color:#d4af37;margin:8px 0 14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(212,175,55,.22);border-radius:16px;padding:14px;margin-top:12px}
+    input,select{padding:10px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.22);color:#fff}
+    button{padding:10px 14px;border-radius:999px;border:1px solid rgba(212,175,55,.35);background:rgba(0,0,0,.25);color:#fff;cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;font-size:14px}
+    th{color:#f5e7a1}
+    .ok{color:#7CFF9E;font-weight:bold}
+    .warn{color:#ffd27a;font-weight:bold}
+    .muted{opacity:.8}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(212,175,55,.22);background:rgba(0,0,0,.18)}
+    .small{font-size:13px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Lista • Anny Sophie XV</h1>
+
+  <div class="row">
+    <button onclick="carregar()">Atualizar</button>
+    <label class="muted small">Auto atualizar:</label>
+    <select id="auto">
+      <option value="0">Desligado</option>
+      <option value="10">10s</option>
+      <option value="20" selected>20s</option>
+      <option value="30">30s</option>
+    </select>
+
+    <input id="busca" placeholder="Buscar por nome/sobrenome…" oninput="filtrar()"/>
+    <select id="faixa" onchange="filtrar()">
+      <option value="">Todas idades</option>
+      <option value="0-12">0-12</option>
+      <option value="13-17">13-17</option>
+      <option value="18+">18+</option>
+    </select>
+    <select id="status" onchange="filtrar()">
+      <option value="">Todos status</option>
+      <option value="CONFIRMADO">CONFIRMADO</option>
+      <option value="PRESENTE">PRESENTE</option>
+    </select>
+  </div>
+
+  <div class="card">
+    <div class="chips" id="resumo"></div>
+    <div class="muted small" style="margin-top:10px">
+      Dica: use essa página no seu notebook/celular no dia. Se quiser, depois eu te ajudo a “proteger” com uma senha simples.
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Sobrenome</th>
+          <th>Idade</th>
+          <th>Faixa</th>
+          <th>Status</th>
+          <th>Check-in</th>
+          <th class="muted">ID</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxGldzSFauRNImrhQ7ZAEvxC4pAPp2LAPsGhf4UnOUlu7U8oMDfHKdDwczQcoOekQPC/exec";
+
+let DATA = [];
+
+async function carregar(){
+  // Pega a planilha via "export json" improvisado:
+  // Como nosso Apps Script não tem rota listRSVP ainda, vamos adicionar agora sem quebrar:
+  // => Você pode colar o upgrade no Apps Script se quiser. Por enquanto, vamos ler pelo método simples:
+  // (Se preferir, eu já te passo o doGet listRSVP na próxima mensagem.)
+
+  // Para funcionar já, vou buscar um endpoint opcional:
+  const url = ENDPOINT + "?action=listRSVP";
+  const resp = await fetch(url);
+  const json = await resp.json();
+  if(!json.ok){
+    document.getElementById("tbody").innerHTML =
+      <tr><td colspan="7" class="warn">⚠️ Ative a rota listRSVP no Apps Script (eu te passo abaixo).</td></tr>;
+    return;
+  }
+  DATA = json.items || [];
+  render(DATA);
+}
+
+function render(items){
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+
+  const total = items.length;
+  const confirmados = items.filter(x=>x.status==="CONFIRMADO").length;
+  const presentes = items.filter(x=>x.status==="PRESENTE").length;
+
+  const porFaixa = (faixa)=> items.filter(x=>x.faixa===faixa).length;
+
+  document.getElementById("resumo").innerHTML = `
+    <div class="chip">Total: <b>${total}</b></div>
+    <div class="chip">Confirmados: <b>${confirmados}</b></div>
+    <div class="chip">Presentes: <b>${presentes}</b></div>
+    <div class="chip">0-12: <b>${porFaixa("0-12")}</b></div>
+    <div class="chip">13-17: <b>${porFaixa("13-17")}</b></div>
+    <div class="chip">18+: <b>${porFaixa("18+")}</b></div>
+  `;
+
+  items.forEach(it=>{
+    const st = it.status === "PRESENTE"
+      ? <span class="ok">PRESENTE ✅</span>
+      : <span class="muted">CONFIRMADO</span>;
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${escapeHtml(it.nome||"")}</td>
+        <td>${escapeHtml(it.sobrenome||"")}</td>
+        <td>${escapeHtml(String(it.idade||""))}</td>
+        <td>${escapeHtml(it.faixa||"")}</td>
+        <td>${st}</td>
+        <td class="muted">${escapeHtml(it.checkin_time||"")}</td>
+        <td class="muted small">${escapeHtml(it.id||"")}</td>
+      </tr>
+    `;
+  });
+
+  filtrar(); // aplica filtros atuais
+}
+
+function filtrar(){
+  const q = (document.getElementById("busca").value||"").toLowerCase().trim();
+  const faixa = document.getElementById("faixa").value;
+  const status = document.getElementById("status").value;
+
+  let items = DATA.slice();
+
+  if(q){
+    items = items.filter(x => (${x.nome||""} ${x.sobrenome||""}).toLowerCase().includes(q));
+  }
+  if(faixa){
+    items = items.filter(x => x.faixa === faixa);
+  }
+  if(status){
+    items = items.filter(x => x.status === status);
+  }
+  renderTableOnly(items);
+}
+
+function renderTableOnly(items){
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  items.forEach(it=>{
+    const st = it.status === "PRESENTE"
+      ? <span class="ok">PRESENTE ✅</span>
+      : <span class="muted">CONFIRMADO</span>;
+    tbody.innerHTML += `
+      <tr>
+        <td>${escapeHtml(it.nome||"")}</td>
+        <td>${escapeHtml(it.sobrenome||"")}</td>
+        <td>${escapeHtml(String(it.idade||""))}</td>
+        <td>${escapeHtml(it.faixa||"")}</td>
+        <td>${st}</td>
+        <td class="muted">${escapeHtml(it.checkin_time||"")}</td>
+        <td class="muted small">${escapeHtml(it.id||"")}</td>
+      </tr>
+    `;
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+// auto refresh
+let timer = null;
+document.getElementById("auto").addEventListener("change", ()=>{
+  const v = Number(document.getElementById("auto").value);
+  if(timer) clearInterval(timer);
+  if(v>0) timer = setInterval(carregar, v*1000);
+});
+
+carregar();
+document.getElementById("auto").dispatchEvent(new Event("change"));
+</script>
+</body>
+</html>
