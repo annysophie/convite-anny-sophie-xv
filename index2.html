@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+   <head>
+      <meta charset="UTF-8" />
+      <title>Anny Sophie • 15 Anos</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <!-- Fontes -->
+      <link
+         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap"
+         rel="stylesheet"
+      />
+      <style>
+         body {
+            margin: 0;
+            font-family: "Montserrat", sans-serif;
+            background-image: url("./imagens/convite.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+         }
+         header img {
+            max-width: 520px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            margin-top: 50px;
+         }
+         h1 {
+            font-family: "Playfair Display", serif;
+            font-size: 3em;
+            color: #d4af37;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #000;
+         }
+         h2 {
+            font-weight: 300;
+            margin-bottom: 20px;
+            font-size: 34px;
+            font-weight: bold;
+            opacity: 0.9;
+            text-shadow: 2px 2px #000;
+         }
+         h3 {
+            font-weight: 300;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            opacity: 0.9;
+            text-shadow: 2px 2px #000;
+         }
+         .parchment-wrapper {
+            background-image: url("./imagens/pergaminho.png");
+            background-size: auto;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0 auto;
+            padding: 70px 40px;
+          }
+         .section {
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 500px;
+            color: #000;
+            font-weight: bold;
+         }
+         .section h3 {
+            color: #d4af37;
+            font-family: "Playfair Display", serif;
+            font-weight: bold;
+            font-size: 42px;
+         }
+         .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 14px 30px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #d4af37, #f5e7a1);
+            color: #0b1c2d;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+         }
+         .btn:hover {
+            opacity: 0.95;
+         }
+         .countdown {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+         }
+         .countdown-item {
+            background: rgba(255, 255, 255);
+            border-radius: 16px;
+            padding: 14px 18px;
+            min-width: 90px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+         }
+         .countdown-item span {
+            display: block;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #d4af37;
+            font-family: "Playfair Display", serif;
+         }
+         .countdown-item small {
+            font-size: 0.75em;
+            letter-spacing: 1px;
+            opacity: 0.85;
+            color: #000;
+         }
+         footer {
+            margin: 50px 0 30px;
+            font-size: 0.9em;
+            opacity: 0.7;
+         }
+
+         #startOverlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, #0b1c2d, #132f4c);
+            z-index: 9999;
+            background-image: url("./imagens/convite.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+         }
+
+         .start-div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+         }
+
+         .start-box {
+            padding: 25px 40px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #d4af37, #f5e7a1);
+            color: #0b1c2d;
+            font-weight: bold;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            width: 350px;
+            margin-top: 50px;
+         }
+
+         .sparkle {
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #fff 0%, #ffd700 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-fade 1.5s ease-out forwards;
+            z-index: 10000;
+          }
+
+          @keyframes sparkle-fade {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2) translateY(-40px);
+                opacity: 0;
+            }
+          }
+
+      </style>
+   </head>
+   <body>
+      <header>
+         <div id="startOverlay">
+            <h1>Anny Sophie</h1>
+            <h2>15 Anos</h2>
+            <h3>07 de Fevereiro de 2026 • 20h</h3>
+            <div class="countdown" id="countdown">
+               <div class="countdown-item">
+                  <span id="days">00</span>
+                  <small>DIAS</small>
+               </div>
+               <div class="countdown-item">
+                  <span id="hours">00</span>
+                  <small>HORAS</small>
+               </div>
+               <div class="countdown-item">
+                  <span id="minutes">00</span>
+                  <small>MINUTOS</small>
+               </div>
+               <div class="countdown-item">
+                  <span id="seconds">00</span>
+                  <small>SEGUNDOS</small>
+               </div>
+            </div>
+
+            <div class="start-div">
+              <div class="start-box">
+                <p>✨ Toque para entrar ✨</p>
+              </div>
+            </div>
+         </div>
+      </header>
+
+      <div class="parchment-wrapper">
+
+        <div class="section">
+          <h3>✨ O Convite</h3>
+          <p>
+              “Você pode sonhar, criar, desenhar e construir o lugar mais
+              maravilhoso do mundo, mas é necessário ter amigos e familiares para
+              transformar seu sonho em realidade.”
+          </p>
+        </div>
+        <div class="section">
+          <h3>📍 Local</h3>
+          <p><strong>Buffet Villa Bissou</strong></p>
+          <a
+              class="btn"
+              href="https://www.google.com/maps/search/?api=1&query=Buffet+Villa+Bissou"
+              target="_blank"
+          >
+              Abrir no Mapa
+          </a>
+        </div>
+        <div class="section">
+          <h3>👗 Dress Code</h3>
+          <p>Traje Esporte Fino</p>
+          <a class="btn" href="./imagens/dresscode.jpg" target="_blank">
+              Ver Dress Code
+          </a>
+        </div>
+        <div class="section">
+          <h3>🎁 Sugestão de Presente</h3>
+          <p>
+              Sua presença é o nosso maior presente 💙<br /><br />
+              Caso deseje presentear:
+              <br /><br />
+              <strong>Pix:</strong> 16 99633-2019 (NuBank) <br /><br />
+              Sugestões: Livros • Maquiagem • Roupas tamanho P<br />
+              Sapato 36 • Itens para ballet
+          </p>
+          <a
+              class="btn"
+              href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie"
+              target="_blank"
+          >
+              Falar sobre Presentes
+          </a>
+        </div>
+        <div class="section">
+          <h3>📸 Álbum da Festa</h3>
+          <p>
+              Durante e após a festa, escaneie o QR Code disponível nas mesas para
+              enviar suas fotos e vídeos.
+          </p>
+          <a
+              class="btn"
+              href="https://drive.google.com/drive/folders/1nFwzC6XO339HreGU2JJAr8MZRyXR-JHj?usp=sharing"
+              target="_blank"
+          >
+              Ver Álbum
+          </a>
+        </div>
+        <div class="section">
+          <h3>✅ Confirmação de Presença</h3>
+          <p>Confirmação até <strong>30/01/2026</strong>.</p>
+          <a class="btn" href="./rspv.html" target="_blank">
+              Confirmar Presença
+          </a>
+        </div>
+      </div>
+
+      <footer>Feito com carinho para Anny Sophie 💙✨</footer>
+
+      <audio id="bgMusic" loop preload="auto">
+         <source src="tema.mp3" type="audio/mpeg" />
+         Seu navegador não suporta áudio.
+      </audio>
+
+      <script>
+         const targetDate = new Date("2026-02-07T20:30:00").getTime();
+
+         const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+               clearInterval(countdown);
+               document.getElementById("countdown").innerHTML =
+                  "<strong>✨ Chegou o grande momento! ✨</strong>";
+               return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor(
+               (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+            );
+            const minutes = Math.floor(
+               (distance % (1000 * 60 * 60)) / (1000 * 60),
+            );
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(
+               2,
+               "0",
+            );
+            document.getElementById("hours").innerText = String(hours).padStart(
+               2,
+               "0",
+            );
+            document.getElementById("minutes").innerText = String(
+               minutes,
+            ).padStart(2, "0");
+            document.getElementById("seconds").innerText = String(
+               seconds,
+            ).padStart(2, "0");
+         }, 1000);
+
+         const overlay = document.getElementById("startOverlay");
+         const audio = document.getElementById("bgMusic");
+
+         audio.volume = 0.35;
+
+         overlay.addEventListener("click", async () => {
+            await audio.play();
+            overlay.style.display = "none";
+         });
+      </script>
+   </body>
+</html>

@@ -1,304 +1,372 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-   <head>
-      <meta charset="UTF-8" />
-      <title>Anny Sophie • 15 Anos</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <!-- Fontes -->
-      <link
-         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap"
-         rel="stylesheet"
-      />
-      <style>
-         body {
-            margin: 0;
-            font-family: "Montserrat", sans-serif;
-            background: linear-gradient(180deg, #0b1c2d, #132f4c);
-            color: #fff;
-            text-align: center;
-         }
-         header {
-            padding: 50px 20px 30px;
-         }
-         header img {
-            max-width: 520px;
-            width: 100%;
-            border-radius: 18px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
-            margin-top: 50px;
-         }
-         h1 {
-            font-family: "Playfair Display", serif;
-            font-size: 3em;
-            color: #d4af37;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px #000;
-         }
-         h2 {
-            font-weight: 300;
-            margin-bottom: 20px;
-            font-size: 34px;
-            font-weight: bold;
-            opacity: 0.9;
-            text-shadow: 2px 2px #000;
-         }
-         h3 {
-            font-weight: 300;
-            margin-bottom: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            opacity: 0.9;
-            text-shadow: 2px 2px #000;
-         }
-         .section {
-            background: rgba(255, 255, 255, 0.06);
-            margin: 20px auto;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 700px;
-         }
-         .section h3 {
-            color: #d4af37;
-            font-family: "Playfair Display", serif;
-            margin-bottom: 15px;
-         }
-         .btn {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 14px 30px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #d4af37, #f5e7a1);
-            color: #0b1c2d;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
-         }
-         .btn:hover {
-            opacity: 0.95;
-         }
-         .countdown {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            flex-wrap: wrap;
-         }
-         .countdown-item {
-            background: rgba(255, 255, 255);
-            border-radius: 16px;
-            padding: 14px 18px;
-            min-width: 90px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
-         }
-         .countdown-item span {
-            display: block;
-            font-size: 1.8em;
-            font-weight: 600;
-            color: #d4af37;
-            font-family: "Playfair Display", serif;
-         }
-         .countdown-item small {
-            font-size: 0.75em;
-            letter-spacing: 1px;
-            opacity: 0.85;
-            color: #000;
-         }
-         footer {
-            margin: 50px 0 30px;
-            font-size: 0.9em;
-            opacity: 0.7;
-         }
 
-         #startOverlay {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(180deg, #0b1c2d, #132f4c);
-            z-index: 9999;
-            background-image: url("./imagens/convite.jpg");
-            background-size: cover;        /* ocupa 100% da tela */
-            background-position: center;   /* centraliza */
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-         }
+<head>
+  <meta charset="UTF-8" />
+  <title>Anny Sophie • 15 Anos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Times New Roman', Times, serif;
 
-         .start-div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-         }
+      background:
+        radial-gradient(circle at 50% 120%, #030511, transparent 60%),
+        radial-gradient(circle at 80% 0%, #0c183e, transparent 50%),
+        radial-gradient(circle at 20% -10%, #0f215b, transparent 45%),
+        linear-gradient(
+          to bottom,
+          #0a0f1e 0%,
+          #0b1224 30%,
+          #08101f 60%,
+          #050b16 100%
+        );
 
-         .start-box {
-            padding: 25px 40px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #d4af37, #f5e7a1);
-            color: #0b1c2d;
-            font-weight: bold;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            width: 350px;
-            margin-top: 50px;
-         }
-      </style>
-   </head>
-   <body>
-      <header>
-         <div id="startOverlay">
-            <h1>Anny Sophie</h1>
-            <h2>15 Anos</h2>
-            <h3>07 de Fevereiro de 2026 • 20h</h3>
-            <div class="countdown" id="countdown">
-               <div class="countdown-item">
-                  <span id="days">00</span>
-                  <small>DIAS</small>
-               </div>
-               <div class="countdown-item">
-                  <span id="hours">00</span>
-                  <small>HORAS</small>
-               </div>
-               <div class="countdown-item">
-                  <span id="minutes">00</span>
-                  <small>MINUTOS</small>
-               </div>
-               <div class="countdown-item">
-                  <span id="seconds">00</span>
-                  <small>SEGUNDOS</small>
-               </div>
-            </div>
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
 
-            <div class="start-div">
-              <div class="start-box">
-                <p>✨ Toque para entrar ✨</p>
-              </div>
-            </div>
-         </div>
-      </header>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-      <div class="section">
-         <h3>✨ O Convite</h3>
-         <p>
-            “Você pode sonhar, criar, desenhar e construir o lugar mais
-            maravilhoso do mundo, mas é necessário ter amigos e familiares para
-            transformar seu sonho em realidade.”
-         </p>
-      </div>
-      <div class="section">
-         <h3>📍 Local</h3>
-         <p><strong>Buffet Villa Bissou</strong></p>
-         <a
-            class="btn"
-            href="https://www.google.com/maps/search/?api=1&query=Buffet+Villa+Bissou"
-            target="_blank"
-         >
-            Abrir no Mapa
-         </a>
-      </div>
-      <div class="section">
-         <h3>👗 Dress Code</h3>
-         <p>Traje Esporte Fino</p>
-         <a class="btn" href="./imagens/dresscode.jpg" target="_blank">
-            Ver Dress Code
-         </a>
-      </div>
-      <div class="section">
-         <h3>🎁 Sugestão de Presente</h3>
-         <p>
-            Sua presença é o nosso maior presente 💙<br /><br />
-            Caso deseje presentear:
-            <br /><br />
-            <strong>Pix:</strong> 16 99633-2019 (NuBank) <br /><br />
-            Sugestões: Livros • Maquiagem • Roupas tamanho P<br />
-            Sapato 36 • Itens para ballet
-         </p>
-         <a
-            class="btn"
-            href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie"
-            target="_blank"
-         >
-            Falar sobre Presentes
-         </a>
-      </div>
-      <div class="section">
-         <h3>📸 Álbum da Festa</h3>
-         <p>
-            Durante e após a festa, escaneie o QR Code disponível nas mesas para
-            enviar suas fotos e vídeos.
-         </p>
-         <a
-            class="btn"
-            href="https://drive.google.com/drive/folders/1nFwzC6XO339HreGU2JJAr8MZRyXR-JHj?usp=sharing"
-            target="_blank"
-         >
-            Ver Álbum
-         </a>
-      </div>
-      <div class="section">
-         <h3>💌 Livro de Mensagens</h3>
-         <p>
-            Deixe sua mensagem especial para a Anny Sophie — em texto ou vídeo.
-         </p>
-      </div>
-      <div class="section">
-         <h3>✅ Confirmação de Presença</h3>
-         <p>Confirmação até <strong>30/01/2026</strong>.</p>
-         <a class="btn" href="./rspv.html" target="_blank">
-            Confirmar Presença
-         </a>
-      </div>
-      <footer>Feito com carinho para Anny Sophie 💙✨</footer>
+    #sky {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-      <audio id="bgMusic" loop preload="auto">
-         <source src="tema.mp3" type="audio/mpeg" />
-         Seu navegador não suporta áudio.
-      </audio>
+    .star {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.95);
+      font-family: Georgia, serif;
+      user-select: none;
+      will-change: transform, opacity;
+    }
 
-      <script>
-         const targetDate = new Date("2026-02-07T20:30:00").getTime();
+    .book {
+      width: 800px;
+      max-width: 100%;
+      height: 600px;
+      max-height: 70vw;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      perspective: 1500px;
+      user-select: none;
+      z-index: 10;
+    }
 
-         const countdown = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+    .page {
+      width: 49%;
+      height: 98%;
+      padding: 20px;
+      position: absolute;
+      top: 1%;
+      left: 50%;
+      font-size: 16px;
+      line-height: 18px;
+      color: black;
+      background-color: blanchedalmond;
+      background-image: linear-gradient(to right, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 10%);
+      transition: transform .5s;
+      transform: rotateY(-180deg);
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      z-index: 4;
 
-            if (distance < 0) {
-               clearInterval(countdown);
-               document.getElementById("countdown").innerHTML =
-                  "<strong>✨ Chegou o grande momento! ✨</strong>";
-               return;
-            }
+      &:nth-of-type(2n) {
+        left: 1px;
+        background-image: linear-gradient(to left, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, 0) 10%);
+        transform-origin: right center;
+        transform: rotateY(0);
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor(
-               (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-            );
-            const minutes = Math.floor(
-               (distance % (1000 * 60 * 60)) / (1000 * 60),
-            );
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        &:not(.cover) {
+          left: calc(1% + 1px);
+        }
+      }
 
-            document.getElementById("days").innerText = String(days).padStart(
-               2,
-               "0",
-            );
-            document.getElementById("hours").innerText = String(hours).padStart(
-               2,
-               "0",
-            );
-            document.getElementById("minutes").innerText = String(
-               minutes,
-            ).padStart(2, "0");
-            document.getElementById("seconds").innerText = String(
-               seconds,
-            ).padStart(2, "0");
-         }, 1000);
+      h2 {
+        text-align: center;
+      }
 
-         const overlay = document.getElementById("startOverlay");
-         const audio = document.getElementById("bgMusic");
+      h2+p::first-letter {
+        font-size: 44px;
+        float: left;
+        height: 44px;
+        line-height: 36px;
+        vertical-align: baseline;
+        margin-right: 6px;
+        border-radius: 5px;
+      }
+    }
 
-         audio.volume = 0.35;
+    input[type=radio] {
+      display: none;
+    }
 
-         overlay.addEventListener("click", async () => {
-            await audio.play();
-            overlay.style.display = "none";
-         });
-      </script>
-   </body>
+    input:checked {
+      &~.page {
+        transform: rotateY(0);
+      }
+
+      &~.page:nth-of-type(2n) {
+        transform: rotateY(180deg);
+      }
+
+      &~.page:nth-of-type(2n-1) {
+        z-index: 3;
+      }
+
+      &~.page:nth-of-type(2n-1)~.page:nth-of-type(2n-1) {
+        z-index: 1;
+      }
+
+      &+.page+.page+input+.page {
+        z-index: 2 !important;
+      }
+    }
+
+    .cover {
+      width: 50%;
+      height: 100%;
+      top: 0;
+      border-radius: 0 10px 10px 0;
+      background-color: #dc9426;
+
+      h1 {
+        color: #ec5757;
+        text-align: center;
+        text-shadow: -1px -1px 2px rgba(0, 0, 0, .5);
+        margin-top: 50%;
+        position: relative;
+
+        &::after {
+          content: "";
+          display: block;
+          width: 60px;
+          position: absolute;
+          bottom: -20px;
+          margin-left: -30px;
+          left: 50%;
+          border-top: 1px solid #ec5757;
+          box-shadow: -1px -1px 2px rgba(0, 0, 0, .5);
+        }
+      }
+
+      &+.cover {
+        border-radius: 10px 0 0 10px;
+      }
+
+      &:first-of-type,
+      &:last-of-type {
+        background-image: none;
+
+        &::before {
+          content: "";
+          width: calc(100% - 20px);
+          height: calc(100% - 20px);
+          border: 2px dashed rgba(0, 0, 0, .2);
+          position: absolute;
+          top: 9px;
+          left: 9px;
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sky" data-stars="50"></div>
+
+  <div class="book">
+    <input type="radio" name="page" id="page-1" checked />
+    <label class="page cover" for="page-3">
+      <h1>Anny Sophie</h1> Anny Sophie
+    </label>
+
+    <label class="page cover" for="page-1">
+    </label>
+
+    <input type="radio" name="page" id="page-3" />
+    <label class="page" for="page-5">
+      <h2>✨ O Convite</h2>
+      <p>“Você pode sonhar, criar, desenhar e construir o lugar mais maravilhoso do mundo, mas é necessário ter amigos e familiares para transformar seu sonho em realidade.” </p>
+    </label>
+    <label class="page" for="page-3">
+
+      <h2>📍 Local</h2>
+      <p>Buffet Villa Bissou</p>
+      <a
+          class="btn"
+          href="https://www.google.com/maps/search/?api=1&query=Buffet+Villa+Bissou"
+          target="_blank"
+      >
+          Abrir no Mapa
+      </a>
+      
+    </label>
+  
+    <input type="radio" name="page" id="page-5" />
+    <label class="page" for="page-7">
+      <h2>👗 Dress Code</h2>
+      <p>Traje Esporte Fino</p>
+
+      <a class="btn" href="./imagens/dresscode.jpg" target="_blank">
+        Ver Dress Code
+      </a>
+    </label>
+    <label class="page" for="page-5">
+
+      <h2>🎁 Sugestão de Presente</h2>
+      <p>
+        Sua presença é o nosso maior presente 💙<br /><br />
+        Caso deseje presentear:
+        <br /><br />
+        <strong>Pix:</strong> 16 99633-2019 (NuBank) <br /><br />
+        Sugestões: Livros • Maquiagem • Roupas tamanho P<br />
+        Sapato 36 • Itens para ballet
+      </p>
+
+      <a
+        class="btn"
+        href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie"
+        target="_blank"
+      >
+        Falar sobre Presentes
+      </a>
+
+    </label>
+    <input type="radio" name="page" id="page-7" />
+    <label class="page" for="page-9">
+
+      <h2>📸 Álbum da Festa</h2>
+      <p>
+        Durante e após a festa, escaneie o QR Code disponível nas mesas para
+        enviar suas fotos e vídeos.
+      </p>
+      <a
+        class="btn"
+        href="https://drive.google.com/drive/folders/1nFwzC6XO339HreGU2JJAr8MZRyXR-JHj?usp=sharing"
+        target="_blank"
+      >
+        Ver Álbum
+      </a>
+
+    </label>
+    <label class="page" for="page-7">
+      <h2>✅ Confirmação de Presença</h2>
+      <p>Confirmação até <strong>30/01/2026</strong>.</p>
+      <a class="btn" href="./rspv.html" target="_blank">
+          Confirmar Presença
+      </a>
+      
+    </label>
+    <input type="radio" name="page" id="page-9" />
+    <label class="page cover" for="page-9">
+    </label>
+    <label class="page cover" for="page-7">
+    </label>
+    <input type="radio" name="page" id="page-7" />
+  </div>
+
+  <!-- <audio id="bg-music" preload="auto" loop>
+    <source src="tema.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio> -->
+
+  <script>
+    function initStarfield() {
+      const sky = document.getElementById("sky");
+      if (!sky) return;
+
+      let starCount = parseInt(sky.dataset.stars || "80", 10);
+
+      if (window.matchMedia("(max-width: 600px)").matches) {
+        starCount = Math.round(starCount * 0.4);
+      }
+
+      sky.innerHTML = "";
+
+      const starChar = "✦";
+
+      for (let i = 0; i < starCount; i++) {
+        const el = document.createElement("div");
+        el.className = "star";
+        el.textContent = starChar;
+
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.top = Math.random() * 100 + "vh";
+
+        const size = gsap.utils.random(6, 18);
+        el.style.fontSize = size + "px";
+
+        sky.appendChild(el);
+
+        function sparkle() {
+          gsap.timeline()
+            .set(el, { opacity: 0, scale: 0.2 })
+            .to(el, {
+              opacity: gsap.utils.random(0.6, 1),
+              scale: gsap.utils.random(1.5, 2.4),
+              duration: gsap.utils.random(0.25, 0.45),
+              ease: "power2.out"
+            })
+            .to(el, {
+              opacity: 0,
+              scale: 0.1,
+              duration: gsap.utils.random(0.4, 0.7),
+              ease: "power1.inOut",
+              delay: gsap.utils.random(0.2, 0.6),
+              onComplete: sparkle
+            });
+        }
+
+        gsap.delayedCall(Math.random() * 3, sparkle);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", initStarfield);
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const book = document.querySelector(".book");
+      const audio = document.getElementById("bg-music");
+
+      if (!book || !audio) return;
+
+      const MAX_VOLUME = 0.02;
+      let started = false;
+
+      audio.volume = MAX_VOLUME;
+      audio.addEventListener("volumechange", () => {
+        if (audio.volume > MAX_VOLUME) audio.volume = MAX_VOLUME;
+      });
+
+      book.addEventListener("click", () => {
+        if (started) return;
+
+        audio.volume = MAX_VOLUME;
+        audio.play().catch(() => {});
+        started = true;
+      });
+    });
+
+  </script>
+
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+</body>
+
 </html>
