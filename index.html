@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Fontes -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;500&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
   <style>
     html, body {
       margin: 0;
@@ -100,7 +102,11 @@
       }
 
       h2 {
-        text-align: center;
+        font-family: "Playfair Display", serif;
+        font-size: 32px;
+        line-height: 32px;
+        text-align: left;
+        margin-top: 1px;
       }
 
       h2+p::first-letter {
@@ -111,6 +117,14 @@
         vertical-align: baseline;
         margin-right: 6px;
         border-radius: 5px;
+      }
+
+      p {
+        font-family: "Montserrat", sans-serif;
+        padding-top: 20px;
+        font-size: 18px;
+        line-height: 1.5;
+        text-align: justify;
       }
     }
 
@@ -186,6 +200,79 @@
         }
       }
     }
+
+    .btn{
+      display: block;
+      width: max-content;
+      margin: 16px auto 0;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(60,90,200,.85),
+          rgba(23,42,102,.85)
+        );
+
+      box-shadow:
+        0 4px 14px rgba(70,110,255,.55),
+        inset 0 1px 0 rgba(255,255,255,.25);
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+    }
+
+    .btn:hover{
+      background:
+        linear-gradient(
+          135deg,
+          rgba(90,120,240,.95),
+          rgba(60,90,200,.95)
+        );
+
+      box-shadow:
+        0 10px 28px rgba(90,130,255,.75),
+        0 0 18px rgba(150,180,255,.85);
+    }
+
+    .nav{
+      position: absolute;
+      top: 83%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .nav .btn{
+      position: absolute;
+      pointer-events: auto;
+      width: auto;
+      min-width: 120px;
+      padding: 12px 16px;
+    }
+
+    #prevBtn{
+      left: 30px;
+    }
+
+    #nextBtn{
+      right: 30px;
+    }
+
   </style>
 </head>
 
@@ -281,6 +368,11 @@
     <label class="page cover" for="page-7">
     </label>
     <input type="radio" name="page" id="page-7" />
+
+    <div class="nav">
+      <a class="btn" id="prevBtn" href="javascript:void(0)">◀ Anterior</a>
+      <a class="btn" id="nextBtn" href="javascript:void(0)">Próximo ▶</a>
+    </div>
   </div>
 
   <!-- <audio id="bg-music" preload="auto" loop>
@@ -364,9 +456,63 @@
       });
     });
 
-  </script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const pageIds = ["page-1","page-3","page-5","page-7","page-9","page-11"];
+      const pages = pageIds.map(id => document.getElementById(id)).filter(Boolean);
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      if (!pages.length || !prevBtn || !nextBtn) return;
 
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+      const idx = () => pages.findIndex(p => p.checked);
+
+      const update = () => {
+        const i = idx();
+        prevBtn.style.display = i <= 0 ? "none" : "";
+        nextBtn.style.display = i >= pages.length - 1 ? "none" : "";
+
+        const last = pages.length - 1;
+
+        if (i <= 0) {
+          prevBtn.style.display = "none";
+          nextBtn.style.display = "inline-flex";
+          nextBtn.textContent = "✨ Abrir o Convite";
+        } else if (i === 1) {
+          nextBtn.style.display = "inline-flex";
+          prevBtn.style.display = "inline-flex";
+          prevBtn.textContent = "🌙 Fechar o Livro";
+          nextBtn.textContent = "Próximo ▶";
+        } else if (i === last) {
+          nextBtn.style.display = "none";
+          prevBtn.style.display = "inline-flex";
+          prevBtn.textContent = "◀ Anterior";
+        } else {
+          prevBtn.style.display = "inline-flex";
+          nextBtn.style.display = "inline-flex";
+          prevBtn.textContent = "◀ Anterior";
+          nextBtn.textContent = "Próximo ▶";
+        }
+      };
+
+      const go = (d) => {
+        let i = idx();
+        if (i < 0) i = 0;
+        const j = Math.max(0, Math.min(pages.length - 1, i + d));
+        pages[j].checked = true;
+        update();
+      };
+
+      prevBtn.addEventListener("click", (e) => { e.preventDefault(); go(-1); });
+      nextBtn.addEventListener("click", (e) => { e.preventDefault(); go(1); });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") go(-1);
+        if (e.key === "ArrowRight") go(1);
+      });
+
+      pages.forEach(p => p.addEventListener("change", update));
+      update();
+    });
+  </script>
 </body>
 
 </html>
