@@ -101,6 +101,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const go = (d) => setActive(current + d);
 
+    book.addEventListener("click", (e) => {
+      // ignora cliques em links/botões/inputs (pra não quebrar "Abrir no mapa", etc)
+      if (e.target.closest("a, button, input, textarea, select")) return;
+
+      const page = e.target.closest("label.page");
+      if (!page) return;
+
+      // opcional: se clicar na metade esquerda, volta; metade direita, avança
+      const rect = page.getBoundingClientRect();
+      const x = (e.clientX ?? (e.touches?.[0]?.clientX)) - rect.left;
+      const leftSide = x < rect.width * 0.35;
+
+      go(leftSide ? -1 : 1);
+    }, { passive: true });
+
     // expõe pra swipe.js se você quiser usar lá
     window.__bookMobileGo = go;
 

@@ -475,6 +475,10 @@ input:checked {
 	right: 40px;
 }
 
+@media (max-width: 600px) {
+  #countdown .cd-title { display: none; }
+}
+
 #countdown {
 	position: fixed;
 	top: 18px;

@@ -2,40 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Presentes Sugeridos</title>
 
-  <!-- Fontes (opcional) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
   <style>
-    html,
-    body {
+    :root{
+      --pad: clamp(14px, 3.2vw, 32px);
+      --card-pad: clamp(14px, 2.6vw, 22px);
+      --radius: 18px;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
       font-family: 'Times New Roman', Times, serif;
-
       background:
         radial-gradient(circle at 50% 120%, #030511, transparent 60%),
         radial-gradient(circle at 80% 0%, #0c183e, transparent 50%),
         radial-gradient(circle at 20% -10%, #0f215b, transparent 45%),
-        linear-gradient(to bottom,
-          #0a0f1e 0%,
-          #0b1224 30%,
-          #08101f 60%,
-          #050b16 100%);
-
+        linear-gradient(to bottom, #0a0f1e 0%, #0b1224 30%, #08101f 60%, #050b16 100%);
       background-attachment: fixed;
       overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
     }
 
-    *,
-    *::before,
-    *::after { box-sizing: border-box; }
+    @media (max-width: 768px) {
+      html, body { background-attachment: scroll; }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
 
     #sky {
       position: fixed;
@@ -55,21 +56,19 @@
       will-change: transform, opacity;
     }
 
-    /* --- Layout principal --- */
     .wrap {
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 32px 16px;
+      padding: calc(var(--pad) + env(safe-area-inset-top)) calc(var(--pad) + env(safe-area-inset-right)) calc(var(--pad) + env(safe-area-inset-bottom)) calc(var(--pad) + env(safe-area-inset-left));
       position: relative;
       z-index: 2;
     }
 
     .card {
-      width: 980px;
-      max-width: 100%;
-      border-radius: 18px;
-      padding: 22px;
+      width: min(980px, 100%);
+      border-radius: var(--radius);
+      padding: var(--card-pad);
       background: linear-gradient(135deg, rgba(20, 30, 70, .72), rgba(10, 15, 40, .72));
       border: 1px solid rgba(180, 200, 255, .35);
       box-shadow: 0 18px 60px rgba(0,0,0,.45), 0 0 18px rgba(120,150,255,.18);
@@ -87,37 +86,14 @@
     .title {
       font-family: "Playfair Display", serif;
       font-weight: 600;
-      font-size: clamp(28px, 4vw, 44px);
+      font-size: clamp(24px, 5.2vw, 44px);
       line-height: 1.05;
       margin: 0;
       color: rgba(255, 235, 180, .95);
       text-shadow: 0 2px 10px rgba(255, 230, 170, .25), 0 10px 30px rgba(0, 0, 0, .35);
       letter-spacing: .3px;
       text-align: center;
-    }
-
-    .subtitle {
-      font-family: "Montserrat", sans-serif;
-      font-size: 14px;
-      letter-spacing: 2.8px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.78);
-      text-align: center;
-      margin: 0;
-      opacity: .95;
-    }
-
-    .badge {
-      width: max-content;
-      margin: 0 auto;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-family: "Montserrat", sans-serif;
-      font-size: 13px;
-      letter-spacing: .6px;
-      color: #2b1a05;
-      background: linear-gradient(135deg, rgba(255, 240, 190, .85), rgba(255, 215, 120, .85));
-      box-shadow: 0 10px 26px rgba(0,0,0,.22), 0 0 14px rgba(255, 210, 120, .18);
+      padding-inline: 6px;
     }
 
     .grid {
@@ -132,7 +108,8 @@
     }
 
     @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; gap: 14px; padding: 2px; }
+      .header { padding: 8px 6px 14px; margin-bottom: 14px; }
     }
 
     .gift {
@@ -147,16 +124,23 @@
       transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
 
-    .gift:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 22px 56px rgba(0,0,0,.48), 0 0 20px rgba(120,150,255,.18);
-      border-color: rgba(180, 200, 255, .35);
+    @media (hover: hover) and (pointer: fine) {
+      .gift:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 22px 56px rgba(0,0,0,.48), 0 0 20px rgba(120,150,255,.18);
+        border-color: rgba(180, 200, 255, .35);
+      }
     }
 
     .gift-media {
       position: relative;
-      height: 170px;
+      aspect-ratio: 16 / 10;
+      min-height: 160px;
       background: radial-gradient(circle at top, #1a2a5e 0%, #0c1430 45%, #050b16 100%);
+    }
+
+    @media (max-width: 560px) {
+      .gift-media { min-height: 190px; aspect-ratio: 16 / 11; }
     }
 
     .gift-media img {
@@ -181,19 +165,23 @@
       gap: 8px;
     }
 
+    @media (max-width: 560px) {
+      .gift-body { padding: 14px 14px 18px; }
+    }
+
     .gift-title {
       margin: 0;
       font-family: "Montserrat", sans-serif;
       font-weight: 600;
       letter-spacing: .2px;
-      font-size: 16px;
+      font-size: clamp(15px, 4.2vw, 16px);
       color: rgba(255, 235, 180, .95);
     }
 
     .gift-desc {
       margin: 0;
       font-family: "Montserrat", sans-serif;
-      font-size: 13px;
+      font-size: clamp(12.5px, 3.6vw, 13px);
       line-height: 1.45;
       color: rgba(255,255,255,.78);
     }
@@ -211,7 +199,6 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-
       padding: 10px 14px;
       border-radius: 12px;
       font-family: 'Montserrat', sans-serif;
@@ -219,17 +206,19 @@
       font-weight: 600;
       text-decoration: none;
       color: #fff;
-
       background: linear-gradient(135deg, rgba(60, 90, 200, .85), rgba(23, 42, 102, .85));
       box-shadow: 0 4px 14px rgba(70, 110, 255, .35), inset 0 1px 0 rgba(255, 255, 255, .18);
       transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
       border: 1px solid rgba(180, 200, 255, .22);
+      touch-action: manipulation;
     }
 
-    .btn:hover {
-      background: linear-gradient(135deg, rgba(90, 120, 240, .95), rgba(60, 90, 200, .95));
-      box-shadow: 0 10px 28px rgba(90, 130, 255, .45), 0 0 18px rgba(150, 180, 255, .35);
-      transform: translateY(-2px);
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover {
+        background: linear-gradient(135deg, rgba(90, 120, 240, .95), rgba(60, 90, 200, .95));
+        box-shadow: 0 10px 28px rgba(90, 130, 255, .45), 0 0 18px rgba(150, 180, 255, .35);
+        transform: translateY(-2px);
+      }
     }
 
     .btn.secondary {
@@ -239,28 +228,17 @@
       border: 1px solid rgba(255, 230, 160, .35);
     }
 
-    .btn.secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 34px rgba(0,0,0,.28), 0 0 20px rgba(255, 210, 120, .22);
+    @media (hover: hover) and (pointer: fine) {
+      .btn.secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 34px rgba(0,0,0,.28), 0 0 20px rgba(255, 210, 120, .22);
+      }
     }
 
-    .footer {
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(180, 200, 255, .18);
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      color: rgba(255,255,255,.75);
-      font-family: "Montserrat", sans-serif;
-      font-size: 12px;
-    }
-
-    .hint {
-      opacity: .9;
-      text-align: center;
-      max-width: 58ch;
+    @media (prefers-reduced-motion: reduce) {
+      .gift, .btn { transition: none; }
+      .gift { transform: none; }
+      .star { display: none; }
     }
   </style>
 </head>
@@ -273,45 +251,60 @@
       <header class="header">
         <h1 class="title">Presentes Sugeridos</h1>
       </header>
-
       <div class="grid" id="giftGrid"></div>
     </section>
   </main>
 
   <script>
-    // Estrelinhas simples (bem leve)
-    (function makeStars() {
-      const sky = document.getElementById('sky');
-      const count = Math.min(70, Math.floor(window.innerWidth / 18));
+    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function makeStars() {
+      const sky = document.getElementById("sky");
+      if (!sky) return;
+      sky.innerHTML = "";
+      if (prefersReduced) return;
+
+      const w = Math.max(320, window.innerWidth || 0);
+      const count = Math.min(90, Math.floor(w / 16));
+
       for (let i = 0; i < count; i++) {
-        const s = document.createElement('div');
-        s.className = 'star';
-        s.textContent = '✦';
+        const s = document.createElement("div");
+        s.className = "star";
+        s.textContent = "✦";
+
         const x = Math.random() * 100;
         const y = Math.random() * 100;
         const size = 10 + Math.random() * 18;
-        const opacity = 0.25 + Math.random() * 0.65;
+        const opacity = 0.22 + Math.random() * 0.68;
 
-        s.style.left = x + 'vw';
-        s.style.top = y + 'vh';
-        s.style.fontSize = size + 'px';
+        s.style.left = x + "vw";
+        s.style.top = y + "vh";
+        s.style.fontSize = size + "px";
         s.style.opacity = opacity.toFixed(2);
 
         const drift = (Math.random() * 2 - 1) * 14;
+
         s.animate(
           [
-            { transform: `translateY(0px) translateX(0px)`, opacity: opacity },
+            { transform: "translateY(0px) translateX(0px)", opacity: opacity },
             { transform: `translateY(-18px) translateX(${drift}px)`, opacity: Math.max(0.15, opacity - 0.25) },
-            { transform: `translateY(0px) translateX(0px)`, opacity: opacity }
+            { transform: "translateY(0px) translateX(0px)", opacity: opacity }
           ],
-          { duration: 3500 + Math.random() * 2500, iterations: Infinity, easing: 'ease-in-out' }
+          { duration: 3500 + Math.random() * 2500, iterations: Infinity, easing: "ease-in-out" }
         );
 
         sky.appendChild(s);
       }
-    })();
+    }
 
-    // --- Edite aqui seus presentes ---
+    function debounce(fn, wait) {
+      let t;
+      return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), wait);
+      };
+    }
+
     const GIFTS = [
       {
         id: 1,
@@ -357,28 +350,37 @@
       }
     ];
 
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
     function renderGifts() {
-      const grid = document.getElementById('giftGrid');
+      const grid = document.getElementById("giftGrid");
+      if (!grid) return;
       grid.innerHTML = "";
 
       GIFTS.forEach((g) => {
-        const card = document.createElement('article');
-        card.className = 'gift';
+        const card = document.createElement("article");
+        card.className = "gift";
+
+        const safeTitle = escapeHtml(g.title);
+        const safeDesc = escapeHtml(g.desc || "");
 
         card.innerHTML = `
           <div class="gift-media">
-            <img src="${g.img}" alt="${escapeHtml(g.title)}" loading="lazy">
+            <img src="${g.img}" alt="${safeTitle}" loading="lazy">
           </div>
           <div class="gift-body">
-            <h3 class="gift-title">${escapeHtml(g.title)}</h3>
-            <p class="gift-desc">${escapeHtml(g.desc || "")}</p>
+            <h3 class="gift-title">${safeTitle}</h3>
+            <p class="gift-desc">${safeDesc}</p>
             <div class="gift-actions" style="display: none !important;">
-              <a class="btn" href="${g.link || "#"}" target="_blank" rel="noopener noreferrer">
-                Ver opção
-              </a>
-              <button class="btn secondary" type="button" onclick="copyLink('${(g.link || "").replaceAll("'", "%27")}')">
-                Copiar link
-              </button>
+              <a class="btn" href="${g.link || "#"}" target="_blank" rel="noopener noreferrer">Ver opção</a>
+              <button class="btn secondary" type="button" onclick="copyLink('${(g.link || "").replaceAll("'", "%27")}')">Copiar link</button>
             </div>
           </div>
         `;
@@ -392,23 +394,14 @@
         alert("Edite o campo 'link' desse presente para copiar um URL real 🙂");
         return;
       }
-      navigator.clipboard.writeText(url).then(() => {
-        alert("Link copiado!");
-      }).catch(() => {
-        alert("Não consegui copiar automaticamente. Copie manualmente: " + url);
-      });
+      navigator.clipboard.writeText(url).then(() => alert("Link copiado!")).catch(() => alert("Não consegui copiar automaticamente. Copie manualmente: " + url));
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
+    makeStars();
     renderGifts();
+
+    window.addEventListener("resize", debounce(makeStars, 180), { passive: true });
+    window.addEventListener("orientationchange", debounce(makeStars, 220), { passive: true });
   </script>
 </body>
 </html>
