@@ -19,11 +19,11 @@ class Particle {
     this.y = y;
 
     const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 3 + 2;
+    const speed = Math.random() * 3 + 1;
     this.vx = Math.cos(angle) * speed;
     this.vy = Math.sin(angle) * speed;
 
-    this.radius = Math.random() * 3 + 3;
+    this.radius = Math.random() * 5 + 5;
     this.rotation = Math.random() * Math.PI * 2;
     this.rotationSpeed = (Math.random() - 0.5) * 0.2;
 
@@ -34,8 +34,8 @@ class Particle {
     update(dt) {
     this.x += this.vx;
     this.y += this.vy;
-    this.vx *= 0.98;
-    this.vy *= 0.98;
+    this.vx *= 0.99;
+    this.vy *= 0.99;
     this.rotation += this.rotationSpeed;
     this.elapsed += dt;
     }
