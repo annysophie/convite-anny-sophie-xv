@@ -26,6 +26,16 @@ body {
 	box-sizing: border-box;
 }
 
+.overlay-convite{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 1;
+}
+
 #sky {
 	position: fixed;
 	inset: 0;
@@ -38,7 +48,7 @@ body {
 
 .star {
 	position: absolute;
-	color: rgba(255, 255, 255, 0.95);
+	color: rgba(235, 163, 63, 0.95);
 	font-family: Georgia, serif;
 	user-select: none;
 	will-change: transform, opacity;
@@ -56,6 +66,20 @@ body {
 	perspective: 1500px;
 	user-select: none;
 	z-index: 10;
+
+	animation: flutuar 3s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+	0% {
+		transform: translate(-50%, -50%) translateY(0);
+	}
+	50% {
+		transform: translate(-50%, -50%) translateY(-20px);
+	}
+	100% {
+		transform: translate(-50%, -50%) translateY(0);
+	}
 }
 
 .page {
@@ -193,6 +217,16 @@ input:checked {
 		pointer-events: none;
 	}
 
+	img {
+		background: radial-gradient(circle at top,
+			#1a2a5e 0%,
+			#0c1430 45%,
+			#050b16 100%);
+			
+		padding: 20px;
+		border-radius: 12px;
+	}
+
 	h1 {
 		font-family: "Playfair Display", serif;
 		font-weight: 600;
@@ -236,13 +270,9 @@ input:checked {
 		font-size: 18px;
 		color: #2b1a05;
 		border-radius: 999px;
-		border: 1px solid rgba(120, 70, 10, .45);
 		background: linear-gradient(135deg,
 				rgba(255, 240, 190, .85),
 				rgba(255, 215, 120, .85));
-		box-shadow:
-			0 10px 26px rgba(0, 0, 0, .35),
-			inset 0 1px 0 rgba(255, 255, 255, .55);
 		position: relative;
 		z-index: 2;
 	}
