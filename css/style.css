@@ -83,7 +83,6 @@ body {
 }
 
 @media (max-width: 600px) {
-
   .book {
     width: 95vw;
     height: 78vh;
@@ -91,9 +90,10 @@ body {
     left: 50%;
     top: 52%;
     transform: translate(-50%, -50%);
+    touch-action: pan-y; /* ok pro swipe */
   }
 
-  /* Base: todas as páginas viram tela cheia e ficam escondidas */
+  /* Base: todas as páginas tela cheia e escondidas */
   .book .page {
     width: 100% !important;
     height: 100% !important;
@@ -107,52 +107,48 @@ body {
     pointer-events: none;
     z-index: 1;
 
-    /* No mobile não queremos o flip 3D do desktop */
     transform: none !important;
+    transition: opacity .25s ease;
+
+    /* garante que o label continue "existindo" */
+    display: block;
   }
 
-  /* Páginas internas: remove só a "vinheta" (mas NÃO mexe na capa) */
-  .book .page:not(.cover) {
-    background-image: none !important;
-  }
-
-  /* Cancela o comportamento do desktop que mostrava várias páginas */
-  .book input:checked ~ .page {
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Mostra só a PRIMEIRA página após o input marcado */
-  .book input:checked + label.page {
+  /* A página ativa no mobile */
+  .book .page.is-active {
     opacity: 1;
     pointer-events: auto;
     z-index: 20;
   }
 
-  /* Esconde o "verso" (segunda label logo após) */
-  .book input:checked + label.page + label.page {
-    display: none;
+  /* páginas internas sem vinheta (mantém capa com fundo) */
+  .book .page:not(.cover) {
+    background-image: none !important;
   }
 
-  /* A CAPA deve aparecer quando ela for a página ativa */
-  .book label.page.cover {
-    display: flex;          /* garante layout da capa */
-    opacity: 0;             /* escondida por padrão */
+  /* não usa mais a regra do desktop via :checked no mobile */
+  .book input:checked ~ .page {
+    transform: none !important;
   }
 
-  /* Quando a capa for a página ativa, ela aparece com fundo e tudo */
-  .book input:checked + label.page.cover {
-    opacity: 1;
-  }
-
-  /* swipe + scroll */
-  .book { touch-action: pan-y; }
-
-  /* oculta botões no mobile */
+  /* botões ocultos no mobile (você já queria isso) */
   #prevBtn,
   #nextBtn {
     display: none !important;
+  }
+
+  .book .page.cover {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* (opcional) garante que a imagem não estoure */
+  .book .page.cover img {
+    max-width: 100%;
+    height: auto;
   }
 }
 
