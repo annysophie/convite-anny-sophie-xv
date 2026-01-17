@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!book || !audio) return;
 
-    const MAX_VOLUME = 0.02;
+    const MAX_VOLUME = 0.05;
     let started = false;
 
     audio.volume = MAX_VOLUME;

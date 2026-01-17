@@ -185,27 +185,28 @@ body {
 }
 
 .page h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 32px;
+  font-family: 'Quintessential', cursive;
+  font-size: 34px;
   line-height: 32px;
   text-align: left;
-  margin-top: 1px;
+  margin-top: 10px;
 }
 
 .page h2 + p::first-letter {
-  font-size: 44px;
+  font-size: 40px;
   float: left;
   height: 44px;
   line-height: 36px;
   vertical-align: baseline;
   margin-right: 6px;
   border-radius: 5px;
+  font-family: "Fleur De Leah", cursive;
 }
 
 .page p {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Quintessential', cursive;
   padding: 15px;
-  font-size: 18px;
+  font-size: 24px;
   line-height: 1.5;
   text-align: justify;
 }
@@ -341,7 +342,7 @@ input:checked {
 	}
 
 	h2 {
-		font-family: "Montserrat", sans-serif;
+		font-family: 'Quintessential', cursive;
 		font-weight: 500;
 		letter-spacing: 3px;
 		text-transform: uppercase;
@@ -359,10 +360,10 @@ input:checked {
 	}
 
 	h3 {
-		font-family: "Montserrat", sans-serif;
+		font-family: 'Quintessential', cursive;
 		font-weight: 400;
 		letter-spacing: .6px;
-		font-size: 18px;
+		font-size: 24px;
 		margin: 0 auto;
 		text-align: center;
 		color: #3b2408;
@@ -507,7 +508,7 @@ input:checked {
 }
 
 #countdown .cd-title {
-	font-family: 'Playfair Display', serif;
+	font-family: 'Arial', sans-serif;
 	font-weight: 600;
 	font-size: 20px;
 	letter-spacing: .2px;
@@ -611,7 +612,7 @@ input:checked {
 }
 
 .modal-card p {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Quintessential', cursive;
   margin: 0 0 16px;
   opacity: .92;
   line-height: 1.4;
@@ -619,7 +620,7 @@ input:checked {
 
 .modal-label {
   display: block;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Quintessential', cursive;
   font-size: 12px;
   letter-spacing: .5px;
   text-transform: uppercase;
@@ -635,7 +636,7 @@ input:checked {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
   outline: none;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Quintessential', cursive;
   font-size: 14px;
 }
 
@@ -669,7 +670,7 @@ input:checked {
 
 .modal-msg {
   margin-top: 12px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Quintessential', cursive;
   font-size: 13px;
   opacity: .95;
 }
