@@ -1,4 +1,5 @@
-const button = document.getElementById("nextBtn");
+const book = document.querySelector(".book");
+const nav = document.querySelector(".nav");
 const canvas = document.getElementById("particle-canvas");
 const ctx = canvas.getContext("2d");
 
@@ -102,16 +103,22 @@ function createParticles(x, y) {
     requestAnimationFrame(animate);
 }
 
-button.addEventListener("click", function (e) {
-    const rect = button.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    button.classList.add("active");
-    
-    setTimeout(() => {
-    button.classList.remove("active");
-    }, 200);
-    
-    createParticles(centerX, centerY);
+book.addEventListener("click", (e) => {
+  const page = e.target.closest(".page");
+  if (!page) return;
+
+  createParticles(e.clientX, e.clientY);
+
+  page.classList.add("tap");
+  setTimeout(() => page.classList.remove("tap"), 180);
+});
+
+nav.addEventListener("click", (e) => {
+  const link = e.target.closest("a");
+  if (!link) return;
+
+  createParticles(e.clientX, e.clientY);
+
+  link.classList.add("tap");
+  setTimeout(() => link.classList.remove("tap"), 180);
 });
