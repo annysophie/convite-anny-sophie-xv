@@ -82,62 +82,136 @@ body {
 	}
 }
 
+@media (max-width: 600px) {
+
+  .book {
+    width: 95vw;
+    height: 78vh;
+    max-height: none;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Base: todas as páginas viram tela cheia e ficam escondidas */
+  .book .page {
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+    top: 0 !important;
+
+    border-radius: 14px;
+    padding: 18px;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+
+    /* No mobile não queremos o flip 3D do desktop */
+    transform: none !important;
+  }
+
+  /* Páginas internas: remove só a "vinheta" (mas NÃO mexe na capa) */
+  .book .page:not(.cover) {
+    background-image: none !important;
+  }
+
+  /* Cancela o comportamento do desktop que mostrava várias páginas */
+  .book input:checked ~ .page {
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Mostra só a PRIMEIRA página após o input marcado */
+  .book input:checked + label.page {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 20;
+  }
+
+  /* Esconde o "verso" (segunda label logo após) */
+  .book input:checked + label.page + label.page {
+    display: none;
+  }
+
+  /* A CAPA deve aparecer quando ela for a página ativa */
+  .book label.page.cover {
+    display: flex;          /* garante layout da capa */
+    opacity: 0;             /* escondida por padrão */
+  }
+
+  /* Quando a capa for a página ativa, ela aparece com fundo e tudo */
+  .book input:checked + label.page.cover {
+    opacity: 1;
+  }
+
+  /* swipe + scroll */
+  .book { touch-action: pan-y; }
+
+  /* oculta botões no mobile */
+  #prevBtn,
+  #nextBtn {
+    display: none !important;
+  }
+}
+
 .page {
-	width: 50%;
-	height: 98%;
-	padding: 20px;
-	position: absolute;
-	top: 1%;
-	left: 50%;
-	font-size: 16px;
-	line-height: 18px;
-	color: black;
-	background-color: blanchedalmond;
-	background-image: linear-gradient(to right, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 10%);
-	transition: transform .5s;
-	transform: rotateY(-180deg);
-	backface-visibility: hidden;
-	transform-style: preserve-3d;
-	transform-origin: left center;
-	z-index: 4;
-	border-radius: 0 10px 10px 0;
+  width: 50%;
+  height: 98%;
+  padding: 20px;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  font-size: 16px;
+  line-height: 18px;
+  color: black;
+  background-color: blanchedalmond;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 10%);
+  transition: transform .5s;
+  transform: rotateY(-180deg);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  z-index: 4;
+  border-radius: 0 10px 10px 0;
+}
 
-	&+.page {
-		border-radius: 10px 0 0 10px;
-	}
+.page + .page {
+  border-radius: 10px 0 0 10px;
+}
 
-	&:nth-of-type(2n) {
-		left: 1px;
-		background-image: linear-gradient(to left, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, 0) 10%);
-		transform-origin: right center;
-		transform: rotateY(0);
-	}
+.page:nth-of-type(2n) {
+  left: 1px;
+  background-image: linear-gradient(to left, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, 0) 10%);
+  transform-origin: right center;
+  transform: rotateY(0);
+}
 
-	h2 {
-		font-family: "Playfair Display", serif;
-		font-size: 32px;
-		line-height: 32px;
-		text-align: left;
-		margin-top: 1px;
-	}
+.page h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 32px;
+  line-height: 32px;
+  text-align: left;
+  margin-top: 1px;
+}
 
-	h2+p::first-letter {
-		font-size: 44px;
-		float: left;
-		height: 44px;
-		line-height: 36px;
-		vertical-align: baseline;
-		margin-right: 6px;
-		border-radius: 5px;
-	}
+.page h2 + p::first-letter {
+  font-size: 44px;
+  float: left;
+  height: 44px;
+  line-height: 36px;
+  vertical-align: baseline;
+  margin-right: 6px;
+  border-radius: 5px;
+}
 
-	p {
-		font-family: "Montserrat", sans-serif;
-		padding: 15px;
-		font-size: 18px;
-		line-height: 1.5;
-		text-align: justify;
-	}
+.page p {
+  font-family: "Montserrat", sans-serif;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: justify;
 }
 
 input[type=radio] {
