@@ -24,10 +24,7 @@
   openBtn.addEventListener("click", openModal);
 
   modal.addEventListener("click", (e) => {
-    const target = e.target;
-    if (target && target.dataset && target.dataset.close === "true") {
-      closeModal();
-    }
+    if (e.target?.dataset?.close === "true") closeModal();
   });
 
   window.addEventListener("keydown", (e) => {
@@ -39,27 +36,36 @@
 
     const fullName = nameInput.value.trim();
     if (fullName.length < 5) {
-      msg.textContent = "Por favor, digite seu nome completo.";
+      msg.textContent = "Digite seu nome completo.";
       return;
     }
 
-    // Aqui você decide o destino:
-    // 1) Enviar para um endpoint (Google Forms, Sheets, API, etc)
-    // 2) Ou só exibir confirmação local
-
     msg.textContent = "Enviando...";
 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzO9J8tWXWkiT9rg8-D1iYHWibRjVWCfpl5YIUwwn1ELFsvmArZWbHj96xKA430VSNa/exec";
+
     try {
-      // EXEMPLO (sem backend): só confirma e fecha
-      await new Promise((r) => setTimeout(r, 600));
+      const res = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ name: fullName })
+      });
+
+      const json = await res.json();
+
+      if (!json.ok) {
+        msg.textContent = "Erro ao confirmar presença.";
+        return;
+      }
 
       msg.textContent = "Presença confirmada! 💙";
       setTimeout(() => {
-        closeModal();
         form.reset();
+        closeModal();
       }, 900);
-    } catch (err) {
-      msg.textContent = "Não foi possível enviar agora. Tente novamente.";
+
+    } catch {
+      msg.textContent = "Falha de conexão. Tente novamente.";
     }
   });
 })();
