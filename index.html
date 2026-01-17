@@ -126,6 +126,7 @@
       <a class="btn" href="./imagens/dresscode.jpg" target="_blank">
         Ver Dress Code
       </a>
+      
     </label>
     <label class="page" for="page-5">
 
@@ -142,7 +143,7 @@
 
       <a
         class="btn"
-        href="https://wa.me/5516996332019?text=Olá!%20Gostaria%20de%20informações%20sobre%20presentes%20do%20XV%20da%20Anny%20Sophie"
+        href="presentes.html"
         target="_blank"
       >
         Falar sobre Presentes
@@ -169,8 +170,8 @@
     <label class="page" for="page-7">
       <h2>✅ Confirmação de Presença</h2>
       <p>Confirmação até <strong>30/01/2026</strong>.</p>
-      <a class="btn" href="./rspv.html" target="_blank">
-          Confirmar Presença
+      <a class="btn" id="openRsvp" href="javascript:void(0)">
+        Confirmar Presença
       </a>
       
     </label>
@@ -192,11 +193,42 @@
     Seu navegador não suporta áudio.
   </audio>
 
+  <!-- RSVP Modal -->
+  <div id="rsvpModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="rsvpTitle">
+    <div class="modal-backdrop" data-close="true"></div>
+
+    <div class="modal-card" role="document">
+      <button class="modal-close" type="button" aria-label="Fechar" data-close="true">✕</button>
+
+      <h2 id="rsvpTitle">✅ Confirmação de Presença</h2>
+      <p>Digite seu nome completo para confirmar.</p>
+
+      <form id="rsvpForm">
+        <label class="modal-label" for="rsvpName">Nome completo</label>
+        <input
+          id="rsvpName"
+          name="name"
+          type="text"
+          placeholder="Ex: Maria Aparecida Silva"
+          autocomplete="name"
+          required
+        />
+
+        <button class="btn modal-submit" type="submit">
+          Enviar
+        </button>
+
+        <div id="rsvpMsg" class="modal-msg" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
   <script src="js/starfield.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/music.js"></script>
   <script src="js/countdown.js"></script>
   <script src="js/particles.js"></script>
+  <script src="js/rsvp-modal.js"></script>
 </body>
 
 </html>
