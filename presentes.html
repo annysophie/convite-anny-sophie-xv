@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Presentes Sugeridos</title>
+  <title>Lista de Presentes</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,40 +29,15 @@
         linear-gradient(to bottom, #0a0f1e 0%, #0b1224 30%, #08101f 60%, #050b16 100%);
       background-attachment: fixed;
       overflow-x: hidden;
-      -webkit-text-size-adjust: 100%;
-    }
-
-    @media (max-width: 768px) {
-      html, body { background-attachment: scroll; }
     }
 
     *, *::before, *::after { box-sizing: border-box; }
-
-    #sky {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .star {
-      position: absolute;
-      color: rgba(235, 163, 63, 0.95);
-      font-family: Georgia, serif;
-      user-select: none;
-      will-change: transform, opacity;
-    }
 
     .wrap {
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: calc(var(--pad) + env(safe-area-inset-top)) calc(var(--pad) + env(safe-area-inset-right)) calc(var(--pad) + env(safe-area-inset-bottom)) calc(var(--pad) + env(safe-area-inset-left));
-      position: relative;
-      z-index: 2;
+      padding: var(--pad);
     }
 
     .card {
@@ -71,337 +46,303 @@
       padding: var(--card-pad);
       background: linear-gradient(135deg, rgba(20, 30, 70, .72), rgba(10, 15, 40, .72));
       border: 1px solid rgba(180, 200, 255, .35);
-      box-shadow: 0 18px 60px rgba(0,0,0,.45), 0 0 18px rgba(120,150,255,.18);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.45);
     }
 
     .header {
-      display: grid;
-      gap: 10px;
-      padding: 10px 10px 18px;
+      padding-bottom: 18px;
       border-bottom: 1px solid rgba(180, 200, 255, .18);
       margin-bottom: 18px;
     }
 
     .title {
       font-family: "Playfair Display", serif;
-      font-weight: 600;
-      font-size: clamp(24px, 5.2vw, 44px);
-      line-height: 1.05;
-      margin: 0;
+      font-size: clamp(26px, 5vw, 42px);
       color: rgba(255, 235, 180, .95);
-      text-shadow: 0 2px 10px rgba(255, 230, 170, .25), 0 10px 30px rgba(0, 0, 0, .35);
-      letter-spacing: .3px;
       text-align: center;
-      padding-inline: 6px;
+      margin: 0;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 16px;
-      padding: 6px;
     }
 
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; gap: 14px; padding: 2px; }
-      .header { padding: 8px 6px 14px; margin-bottom: 14px; }
+    @media (max-width: 800px) {
+      .grid { grid-template-columns: 1fr; }
     }
 
     .gift {
       border-radius: 16px;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 25% 25%, rgba(255, 245, 210, .08), transparent 45%),
-        linear-gradient(135deg, rgba(12, 24, 62, .65), rgba(5, 11, 22, .75));
-      border: 1px solid rgba(180, 200, 255, .22);
-      box-shadow: 0 14px 40px rgba(0,0,0,.35);
-      transform: translateY(0);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      background: linear-gradient(135deg, rgba(12,24,62,.65), rgba(5,11,22,.75));
+      border: 1px solid rgba(180,200,255,.22);
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .gift:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 22px 56px rgba(0,0,0,.48), 0 0 20px rgba(120,150,255,.18);
-        border-color: rgba(180, 200, 255, .35);
-      }
-    }
-
-    .gift-media {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      min-height: 160px;
-      background: radial-gradient(circle at top, #1a2a5e 0%, #0c1430 45%, #050b16 100%);
-    }
-
-    @media (max-width: 560px) {
-      .gift-media { min-height: 190px; aspect-ratio: 16 / 11; }
-    }
+    .gift.full { grid-column: 1 / -1; }
 
     .gift-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      width: 350px;
+      height: 400px;
       display: block;
-      opacity: .95;
-    }
-
-    .gift-media::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(0,0,0,.45) 100%);
-      pointer-events: none;
+      align-items: center;
+      margin: 0 auto;
+      padding-top: 30px;
     }
 
     .gift-body {
-      padding: 14px 14px 16px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .gift-title {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      color: rgba(255,235,180,.95);
+      margin: 0;
+    }
+
+    .gift-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: grid;
       gap: 8px;
     }
 
-    @media (max-width: 560px) {
-      .gift-body { padding: 14px 14px 18px; }
-    }
-
-    .gift-title {
-      margin: 0;
-      font-family: "Montserrat", sans-serif;
-      font-weight: 600;
-      letter-spacing: .2px;
-      font-size: clamp(15px, 4.2vw, 16px);
-      color: rgba(255, 235, 180, .95);
-    }
-
-    .gift-desc {
-      margin: 0;
-      font-family: "Montserrat", sans-serif;
-      font-size: clamp(12.5px, 3.6vw, 13px);
-      line-height: 1.45;
-      color: rgba(255,255,255,.78);
-    }
-
-    .gift-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 6px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px 14px;
+    .item {
       border-radius: 12px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
+      border: 1px solid rgba(180,200,255,.16);
+      background: rgba(255,255,255,.05);
+      overflow: hidden;
+    }
+
+    .item-link {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
       text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(60, 90, 200, .85), rgba(23, 42, 102, .85));
-      box-shadow: 0 4px 14px rgba(70, 110, 255, .35), inset 0 1px 0 rgba(255, 255, 255, .18);
-      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
-      border: 1px solid rgba(180, 200, 255, .22);
-      touch-action: manipulation;
+      color: inherit;
+      cursor: pointer;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .btn:hover {
-        background: linear-gradient(135deg, rgba(90, 120, 240, .95), rgba(60, 90, 200, .95));
-        box-shadow: 0 10px 28px rgba(90, 130, 255, .45), 0 0 18px rgba(150, 180, 255, .35);
-        transform: translateY(-2px);
-      }
+    .item-link.single {
+      grid-template-columns: 1fr;
     }
 
-    .btn.secondary {
-      background: linear-gradient(135deg, rgba(255, 240, 190, .85), rgba(255, 215, 120, .85));
+    .item:hover {
+      border-color: rgba(180,200,255,.28);
+      background: rgba(255,255,255,.07);
+    }
+
+    .item-title {
+      font-family: "Montserrat", sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,.92);
+      margin: 0;
+    }
+
+    .chev {
+      font-family: "Montserrat", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,235,180,.95);
+      opacity: .9;
+      white-space: nowrap;
+    }
+
+    .reserve-btn {
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-family: "Montserrat", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(255,230,160,.35);
+      background: linear-gradient(135deg, rgba(255,240,190,.9), rgba(255,215,120,.9));
       color: #2b1a05;
-      box-shadow: 0 10px 26px rgba(0,0,0,.22), 0 0 14px rgba(255, 210, 120, .14);
-      border: 1px solid rgba(255, 230, 160, .35);
+      cursor: pointer;
+      white-space: nowrap;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .btn.secondary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 14px 34px rgba(0,0,0,.28), 0 0 20px rgba(255, 210, 120, .22);
-      }
+    .reserve-btn:disabled {
+      cursor: not-allowed;
+      opacity: .6;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .gift, .btn { transition: none; }
-      .gift { transform: none; }
-      .star { display: none; }
+    .reserve-btn.chosen {
+      background: linear-gradient(135deg, rgba(90,120,240,.9), rgba(60,90,200,.9));
+      color: #fff;
+      border-color: rgba(180,200,255,.4);
+      opacity: 1;
     }
   </style>
 </head>
 
 <body>
-  <div id="sky" aria-hidden="true"></div>
+<main class="wrap">
+  <section class="card">
+    <header class="header">
+      <h1 class="title">Sugestões de Presentes</h1>
+    </header>
+    <div class="grid" id="giftGrid"></div>
+  </section>
+</main>
 
-  <main class="wrap">
-    <section class="card" aria-label="Lista de presentes sugeridos">
-      <header class="header">
-        <h1 class="title">Presentes Sugeridos</h1>
-      </header>
-      <div class="grid" id="giftGrid"></div>
-    </section>
-  </main>
+<script>
+const RESERVE_KEY = "reserved_book_id_v1";
 
-  <script>
-    const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const CATEGORIES = [
+  {
+    id: "ballet",
+    title: "🩰 Loja de Ballet",
+    img: "imagens/presente-ballet.png",
+    items: [
+      { name: "Loja Micca Ballet (@lojamiccaballet)", link: "https://www.instagram.com/lojamiccaballet/" },
+      { name: "Ballet & Cia (@balletciastore)", link: "https://www.instagram.com/balletciastore/" }
+    ]
+  },
+  {
+    id: "maquiagem",
+    title: "💄 Loja de Maquiagem",
+    img: "imagens/presente-maquiagem.png",
+    items: [
+      { name: "Sephora (Importada e Nacional)", link: "https://www.sephora.com.br" },
+      { name: "Maybelline NY", link: "https://www.maybelline.com.br" },
+      { name: "Quem Disse, Berenice?", link: "https://www.quemdisseberenice.com.br" },
+      { name: "O Boticário", link: "https://www.boticario.com.br" }
+    ]
+  },
+  {
+    id: "academia",
+    title: "👟 Roupas de Academia & Tênis",
+    img: "imagens/presente-academia.png",
+    items: [
+      { name: "Decathlon", link: "https://www.decathlon.com.br" },
+      { name: "Centauro", link: "https://www.centauro.com.br" },
+      { name: "Track&Field", link: "https://www.trackfield.com.br" },
+      { name: "Lupo", link: "https://www.lupo.com.br" },
+      { name: "Donna di Ferro", link: "https://www.instagram.com/donnadiferro/" },
+      { name: "Donna Carioca", link: "https://www.instagram.com/donnacarioca/" },
+      { name: "Alo", link: "https://www.aloyoga.com" }
+    ]
+  },
+  {
+    id: "pix",
+    title: "💝 Pix",
+    img: "imagens/pix_qrcode.png",
+    items: [
+      { name: "Pix (QR Code) — obrigado! 💖", link: "#" }
+    ]
+  },
+  {
+    id: "livros",
+    title: "📚 Livros",
+    img: "imagens/presente-livros.png",
+    full: true,
+    reservable: true,
+    items: [
+      "Vale-livro (se preferir)",
+      "Sempre teremos verão",
+      "Manual de assassinato para boas garotas",
+      "Fazendo meu filme",
+      "A mecânica do amor",
+      "O príncipe cruel",
+      "O rei perverso",
+      "A culpa é das estrelas",
+      "Assistente do vilão",
+      "Mil beijos de um garoto",
+      "Um de nós está mentindo",
+      "Biblioteca da meia-noite",
+      "Confissão de uma garota mal-amada e um pouco dramática"
+    ]
+  }
+];
 
-    function makeStars() {
-      const sky = document.getElementById("sky");
-      if (!sky) return;
-      sky.innerHTML = "";
-      if (prefersReduced) return;
+function getReserved() {
+  return localStorage.getItem(RESERVE_KEY);
+}
 
-      const w = Math.max(320, window.innerWidth || 0);
-      const count = Math.min(90, Math.floor(w / 16));
+function setReserved(id) {
+  localStorage.setItem(RESERVE_KEY, id);
+}
 
-      for (let i = 0; i < count; i++) {
-        const s = document.createElement("div");
-        s.className = "star";
-        s.textContent = "✦";
+function render() {
+  const grid = document.getElementById("giftGrid");
+  grid.innerHTML = "";
+  const reservedId = getReserved();
 
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const size = 10 + Math.random() * 18;
-        const opacity = 0.22 + Math.random() * 0.68;
+  CATEGORIES.forEach(cat => {
+    const card = document.createElement("article");
+    card.className = "gift" + (cat.full ? " full" : "");
 
-        s.style.left = x + "vw";
-        s.style.top = y + "vh";
-        s.style.fontSize = size + "px";
-        s.style.opacity = opacity.toFixed(2);
+    const itemsHtml = cat.items.map((it, index) => {
+      if (cat.id === "livros") {
+        const isVoucher = String(it).toLowerCase().includes("vale-livro");
+        if (isVoucher) {
+          return `
+            <li class="item">
+              <div class="item-link single" role="group" aria-label="Vale-livro">
+                <p class="item-title">${it}</p>
+              </div>
+            </li>
+          `;
+        }
 
-        const drift = (Math.random() * 2 - 1) * 14;
+        const itemId = cat.id + "_" + index;
+        const chosen = reservedId === itemId;
+        const disabled = reservedId && !chosen;
 
-        s.animate(
-          [
-            { transform: "translateY(0px) translateX(0px)", opacity: opacity },
-            { transform: `translateY(-18px) translateX(${drift}px)`, opacity: Math.max(0.15, opacity - 0.25) },
-            { transform: "translateY(0px) translateX(0px)", opacity: opacity }
-          ],
-          { duration: 3500 + Math.random() * 2500, iterations: Infinity, easing: "ease-in-out" }
-        );
-
-        sky.appendChild(s);
-      }
-    }
-
-    function debounce(fn, wait) {
-      let t;
-      return (...args) => {
-        clearTimeout(t);
-        t = setTimeout(() => fn(...args), wait);
-      };
-    }
-
-    const GIFTS = [
-      {
-        id: 1,
-        title: "Livro (Edição especial)",
-        desc: "Uma edição bonita para colecionar e reler.",
-        img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      },
-      {
-        id: 2,
-        title: "Fone Bluetooth",
-        desc: "Para música, podcasts e foco no dia a dia.",
-        img: "https://images.unsplash.com/photo-1518441902117-f0a0a9b3d4ce?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      },
-      {
-        id: 3,
-        title: "Caneca premium",
-        desc: "Clássico que sempre funciona (e dá pra personalizar).",
-        img: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      },
-      {
-        id: 4,
-        title: "Perfume / Body Splash",
-        desc: "Uma escolha certeira se você já sabe a vibe da pessoa.",
-        img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      },
-      {
-        id: 5,
-        title: "Kit de autocuidado",
-        desc: "Creme, máscara, vela… um mini spa em casa.",
-        img: "https://images.unsplash.com/photo-1583946099379-f9c9cb8bc030?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      },
-      {
-        id: 6,
-        title: "Vale-experiência",
-        desc: "Cinema, jantar, show ou passeio — presente memorável.",
-        img: "https://images.unsplash.com/photo-1520975958225-4b83f86f1c91?auto=format&fit=crop&w=1200&q=80",
-        link: "#"
-      }
-    ];
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function renderGifts() {
-      const grid = document.getElementById("giftGrid");
-      if (!grid) return;
-      grid.innerHTML = "";
-
-      GIFTS.forEach((g) => {
-        const card = document.createElement("article");
-        card.className = "gift";
-
-        const safeTitle = escapeHtml(g.title);
-        const safeDesc = escapeHtml(g.desc || "");
-
-        card.innerHTML = `
-          <div class="gift-media">
-            <img src="${g.img}" alt="${safeTitle}" loading="lazy">
-          </div>
-          <div class="gift-body">
-            <h3 class="gift-title">${safeTitle}</h3>
-            <p class="gift-desc">${safeDesc}</p>
-            <div class="gift-actions" style="display: none !important;">
-              <a class="btn" href="${g.link || "#"}" target="_blank" rel="noopener noreferrer">Ver opção</a>
-              <button class="btn secondary" type="button" onclick="copyLink('${(g.link || "").replaceAll("'", "%27")}')">Copiar link</button>
+        return `
+          <li class="item">
+            <div class="item-link" role="group" aria-label="${it}">
+              <p class="item-title">${it}</p>
+              <button class="reserve-btn ${chosen ? "chosen" : ""}" ${disabled ? "disabled" : ""} data-id="${itemId}" type="button">
+                ${chosen ? "Reservado" : "Reservar"}
+              </button>
             </div>
-          </div>
+          </li>
         `;
-
-        grid.appendChild(card);
-      });
-    }
-
-    function copyLink(url) {
-      if (!url || url === "#") {
-        alert("Edite o campo 'link' desse presente para copiar um URL real 🙂");
-        return;
       }
-      navigator.clipboard.writeText(url).then(() => alert("Link copiado!")).catch(() => alert("Não consegui copiar automaticamente. Copie manualmente: " + url));
-    }
 
-    makeStars();
-    renderGifts();
+      const name = it.name;
+      const link = it.link;
 
-    window.addEventListener("resize", debounce(makeStars, 180), { passive: true });
-    window.addEventListener("orientationchange", debounce(makeStars, 220), { passive: true });
-  </script>
+      return `
+        <li class="item">
+          <a class="item-link" href="${link}" target="_blank" rel="noopener noreferrer" aria-label="${name}">
+            <p class="item-title">${name}</p>
+          </a>
+        </li>
+      `;
+    }).join("");
+
+    card.innerHTML = `
+      <div class="gift-media"><img src="${cat.img}" alt="${cat.title}"></div>
+      <div class="gift-body">
+        <h3 class="gift-title">${cat.title}</h3>
+        <ul class="gift-list">${itemsHtml}</ul>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  document.querySelectorAll(".reserve-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (getReserved()) return;
+      setReserved(btn.dataset.id);
+      render();
+    });
+  });
+}
+
+render();
+</script>
 </body>
 </html>
