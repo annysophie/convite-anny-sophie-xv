@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
   <style>
     :root{
       --pad: clamp(14px, 3.2vw, 32px);
@@ -237,7 +239,7 @@
       id: "pix",
       title: "💝 Pix",
       img: "imagens/pix_qrcode.png",
-      items: [{ name: "Pix (QR Code) — obrigado! 💖", link: "#" }]
+      items: []
     },
     {
       id: "livros",
@@ -286,7 +288,46 @@
 
       let itemsHtml = "";
 
-      if (cat.id === "livros") {
+      if (cat.id === "pix") {
+        itemsHtml = `
+          <li class="item">
+            <div class="item-link single" style="text-align:center; gap:14px">
+
+              <p class="item-title" style="font-size:14px; line-height:1.5">
+                Se desejar presentear, preparamos uma forma prática e especial.<br>
+                Sua lembrança fará parte desse momento inesquecível ✨
+              </p>
+
+              <div id="qrcode" style="margin:16px auto"></div>
+              <p class="item-title" style="opacity:.85">Aponte a câmera para o QR Code</p>
+
+              <div style="margin-top:12px">
+                <p class="item-title"><strong>Chave Pix</strong></p>
+                <p id="pix-chave" class="item-title">16988242019</p>
+
+                <button class="reserve-btn" type="button"
+                  onclick="copiarTexto('pix-chave')">
+                  Copiar chave Pix
+                </button>
+              </div>
+
+              <div style="margin-top:14px">
+                <p class="item-title"><strong>Pix Copia e Cola</strong></p>
+
+                <p id="pix-emv" class="item-title" style="font-size:11px; opacity:.85; word-break:break-all">
+      00020126910014BR.GOV.BCB.PIX0136ba6cff55-8df0-46ae-ac42-99e52b8849530229Para Anny Sophie com carinho,5204000053039865802BR5925Suelen Alcantara de Faria6009SAO PAULO62140510dXyGznW2vL63040035
+                </p>
+
+                <button class="reserve-btn" type="button"
+                  onclick="copiarTexto('pix-emv')">
+                  Copiar Pix (Copia e Cola)
+                </button>
+              </div>
+
+            </div>
+          </li>
+        `;
+      } else if (cat.id === "livros") {
         itemsHtml += `
           <li class="item">
             <div class="item-link single" role="group" aria-label="Vale-livro">
@@ -324,7 +365,12 @@
       }
 
       card.innerHTML = `
-        <div class="gift-media"><img src="${cat.img}" alt="${escapeHtml(cat.title)}"></div>
+        ${cat.id !== "pix"
+          ? `<div class="gift-media">
+              <img src="${cat.img}" alt="${escapeHtml(cat.title)}">
+            </div>`
+          : ""
+        }
         <div class="gift-body">
           <h3 class="gift-title">${escapeHtml(cat.title)}</h3>
           <ul class="gift-list">${itemsHtml}</ul>
@@ -360,6 +406,20 @@
     try {
       const books = await fetchBooks();
       render(CATEGORIES, books);
+
+      setTimeout(() => {
+        const qr = document.getElementById("qrcode");
+        if (qr) {
+          qr.innerHTML = "";
+          new QRCode(qr, {
+            text: PIX_COPIA_E_COLA,
+            width: 220,
+            height: 220,
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        }
+      }, 100);
+
     } catch (err) {
       console.error(err);
       const grid = document.getElementById("giftGrid");
@@ -387,6 +447,15 @@
 
   // ✅ Só roda quando o DOM estiver pronto
   document.addEventListener("DOMContentLoaded", () => boot());
+
+  const PIX_COPIA_E_COLA = "00020126910014BR.GOV.BCB.PIX0136ba6cff55-8df0-46ae-ac42-99e52b8849530229Para Anny Sophie com carinho,5204000053039865802BR5925Suelen Alcantara de Faria6009SAO PAULO62140510dXyGznW2vL63040035";
+
+  function copiarTexto(id) {
+    const texto = document.getElementById(id).innerText.trim();
+    navigator.clipboard.writeText(texto).then(() => {
+      alert("Copiado com sucesso 💖");
+    });
+  }
 </script>
 
 </body>
