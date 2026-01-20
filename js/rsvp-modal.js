@@ -8,7 +8,7 @@
   if (!openBtn || !modal || !nameInput || !form) return;
 
   const WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbx6GqCMC_7IZdis7SfNEU8E6OIhv11kDboS6ZgZDMOlkwUG8zTp7hy3MPwXyP2jLcLQ/exec";
+    "https://script.google.com/macros/s/AKfycbzRnl7rCtrbF8yR5o6FFlZSzElwzglI90ebJsAm6luJzUg22PVGbspdIGQORiAvhcWh/exec";
 
   const openModal = () => {
     modal.classList.add("is-open");
@@ -54,7 +54,7 @@
     try {
       const res = await fetch(WEB_APP_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           action: "rsvp",
           name: fullName,
@@ -119,7 +119,7 @@
 
 (() => {
   const WEB_APP_URL =
-    "https://script.google.com/macros/s/AKfycbzO9J8tWXWkiT9rg8-D1iYHWibRjVWCfpl5YIUwwn1ELFsvmArZWbHj96xKA430VSNa/exec";
+    "https://script.google.com/macros/s/AKfycbzRnl7rCtrbF8yR5o6FFlZSzElwzglI90ebJsAm6luJzUg22PVGbspdIGQORiAvhcWh/exec";
 
   let NAMES = [];
 
