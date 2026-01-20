@@ -7,6 +7,9 @@
 
   if (!openBtn || !modal || !nameInput || !form) return;
 
+  const WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbx6GqCMC_7IZdis7SfNEU8E6OIhv11kDboS6ZgZDMOlkwUG8zTp7hy3MPwXyP2jLcLQ/exec";
+
   const openModal = () => {
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -40,21 +43,29 @@
       return;
     }
 
-    msg.textContent = "Enviando...";
+    const companions = Array.from(
+      document.querySelectorAll("#companionsList input")
+    )
+      .map(i => i.value.trim())
+      .filter(v => v.length >= 3);
 
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzO9J8tWXWkiT9rg8-D1iYHWibRjVWCfpl5YIUwwn1ELFsvmArZWbHj96xKA430VSNa/exec";
+    msg.textContent = "Enviando...";
 
     try {
       const res = await fetch(WEB_APP_URL, {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ name: fullName })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "rsvp",
+          name: fullName,
+          companions
+        })
       });
 
       const json = await res.json();
 
       if (!json.ok) {
-        msg.textContent = "Erro ao confirmar presença.";
+        msg.textContent = json.error || "Erro ao confirmar presença.";
         return;
       }
 
@@ -71,87 +82,78 @@
 })();
 
 (function () {
-    const addBtn = document.getElementById("addCompanionBtn");
-    const list = document.getElementById("companionsList");
+  const addBtn = document.getElementById("addCompanionBtn");
+  const list = document.getElementById("companionsList");
 
-    let count = 0;
-    const MAX = 10; // se quiser limitar
+  let count = 0;
+  const MAX = 10;
 
-    function addCompanionInput() {
-      if (count >= MAX) return;
+  function addCompanionInput() {
+    if (count >= MAX) return;
 
-      count += 1;
+    count += 1;
 
-      const row = document.createElement("div");
-      row.className = "companion-row";
+    const row = document.createElement("div");
+    row.className = "companion-row";
 
-      const inputId = `companion_${count}`;
+    row.innerHTML = `
+      <input
+        type="text"
+        class="js-autocomplete"
+        placeholder="Nome do acompanhante"
+        autocomplete="off"
+      />
+      <button type="button" class="remove-companion">✕</button>
+    `;
 
-      row.innerHTML = `
-        <input
-          name="companions[]"
-          type="text"
-          class="js-autocomplete"
-          placeholder="Nome do acompanhante"
-          autocomplete="off"
-        />
-        <button type="button" class="remove-companion" aria-label="Remover acompanhante">✕</button>
-      `;
+    row.querySelector(".remove-companion").addEventListener("click", () => {
+      row.remove();
+    });
 
-      row.querySelector(".remove-companion").addEventListener("click", () => {
-        row.remove();
-        // opcional: diminuir count? (normalmente não precisa)
-      });
+    list.appendChild(row);
+    row.querySelector("input").focus();
+  }
 
-      list.appendChild(row);
-
-      // já foca no input novo
-      row.querySelector("input").focus();
-    }
-
-    addBtn.addEventListener("click", addCompanionInput);
-  })();
+  addBtn.addEventListener("click", addCompanionInput);
+})();
 
 (() => {
-  /* MOCK */
-  const NAMES = [
-    "Maria Aparecida Silva",
-    "João Pedro Souza",
-    "Ana Carolina Lima",
-    "Bruno Henrique Santos",
-    "Camila Oliveira",
-    "Carlos Eduardo Rocha",
-    "Fernanda Almeida",
-    "Gabriel Martins",
-    "Juliana Costa",
-    "Lucas Pereira"
-  ];
+  const WEB_APP_URL =
+    "https://script.google.com/macros/s/AKfycbzO9J8tWXWkiT9rg8-D1iYHWibRjVWCfpl5YIUwwn1ELFsvmArZWbHj96xKA430VSNa/exec";
+
+  let NAMES = [];
 
   const box = document.getElementById("autocompleteBox");
   let activeInput = null;
   let activeIndex = -1;
   let items = [];
 
-  const norm = (s) =>
-    s.toLowerCase()
-     .normalize("NFD")
-     .replace(/[\u0300-\u036f]/g, "");
+  const norm = s =>
+    s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-  function close(){
+  async function carregarConvidados() {
+    try {
+      const res = await fetch(WEB_APP_URL + "?action=convidados");
+      const json = await res.json();
+      if (json.ok) NAMES = json.names || [];
+    } catch {}
+  }
+
+  function close() {
     box.classList.remove("is-open");
     box.innerHTML = "";
     activeIndex = -1;
     items = [];
   }
 
-  function positionBox(input){
+  function positionBox(input) {
     const r = input.getBoundingClientRect();
     box.style.width = r.width + "px";
     box.style.left = r.left + window.scrollX + "px";
-    box.style.top  = r.bottom + window.scrollY + 8 + "px";
+    box.style.top = r.bottom + window.scrollY + 8 + "px";
   }
 
-  function render(list){
+  function render(list) {
     box.innerHTML = "";
     list.forEach((name, idx) => {
       const li = document.createElement("li");
@@ -165,14 +167,14 @@
     box.classList.add("is-open");
   }
 
-  function select(idx){
+  function select(idx) {
     if (!activeInput || !items[idx]) return;
     activeInput.value = items[idx];
     close();
     activeInput.focus();
   }
 
-  function update(){
+  function update() {
     if (!activeInput) return;
 
     const q = norm(activeInput.value.trim());
@@ -185,7 +187,6 @@
     render(items);
   }
 
-  /* EVENT DELEGATION */
   document.addEventListener("focusin", e => {
     if (e.target.classList.contains("js-autocomplete")) {
       activeInput = e.target;
@@ -223,4 +224,6 @@
   document.addEventListener("click", e => {
     if (!e.target.closest(".js-autocomplete")) close();
   });
+
+  carregarConvidados();
 })();

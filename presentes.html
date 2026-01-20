@@ -196,7 +196,7 @@
 
 <script>
   // Use URL BASE (sem ?action fixo)
-  const BASE_URL = "https://script.google.com/macros/s/AKfycbzjgJJvfK31m9WaU_qDMBjaP1x7sVba-o40hYqNaEGUpKFzyuAb0CmtrFrxehs29Rpp/exec";
+  const BASE_URL = "https://script.google.com/macros/s/AKfycbx6GqCMC_7IZdis7SfNEU8E6OIhv11kDboS6ZgZDMOlkwUG8zTp7hy3MPwXyP2jLcLQ/exec";
 
   const RESERVE_TOKEN = "UtdiUY6j5EeepnRqa083Z0vbm3";
 
@@ -249,6 +249,21 @@
       items: []
     }
   ];
+
+  function applyDisableIfAnyReserved(books) {
+    const anyReserved = books.some(b => !!b.reservado);
+
+    // Se tiver algum reservado, desabilita todos os botões que NÃO são reservados
+    document.querySelectorAll("[data-book-id]").forEach(btn => {
+      const isAlreadyReserved = btn.classList.contains("chosen") || btn.textContent.trim() === "Reservado";
+
+      if (anyReserved && !isAlreadyReserved) {
+        btn.disabled = true;
+        btn.textContent = "Reservar";
+        btn.classList.remove("chosen");
+      }
+    });
+  }
 
   async function fetchBooks() {
     const res = await fetch(`${BASE_URL}?action=presentes`, { method: "GET" });
@@ -406,6 +421,8 @@
     try {
       const books = await fetchBooks();
       render(CATEGORIES, books);
+
+      applyDisableIfAnyReserved(books);
 
       setTimeout(() => {
         const qr = document.getElementById("qrcode");
