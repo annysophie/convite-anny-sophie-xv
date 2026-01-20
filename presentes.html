@@ -193,156 +193,201 @@
 </main>
 
 <script>
-const RESERVE_KEY = "reserved_book_id_v1";
+  // Use URL BASE (sem ?action fixo)
+  const BASE_URL = "https://script.google.com/macros/s/AKfycbzjgJJvfK31m9WaU_qDMBjaP1x7sVba-o40hYqNaEGUpKFzyuAb0CmtrFrxehs29Rpp/exec";
 
-const CATEGORIES = [
-  {
-    id: "ballet",
-    title: "🩰 Loja de Ballet",
-    img: "imagens/presente-ballet.png",
-    items: [
-      { name: "Loja Micca Ballet (@lojamiccaballet)", link: "https://www.instagram.com/lojamiccaballet/" },
-      { name: "Ballet & Cia (@balletciastore)", link: "https://www.instagram.com/balletciastore/" }
-    ]
-  },
-  {
-    id: "maquiagem",
-    title: "💄 Loja de Maquiagem",
-    img: "imagens/presente-maquiagem.png",
-    items: [
-      { name: "Sephora (Importada e Nacional)", link: "https://www.sephora.com.br" },
-      { name: "Maybelline NY", link: "https://www.maybelline.com.br" },
-      { name: "Quem Disse, Berenice?", link: "https://www.quemdisseberenice.com.br" },
-      { name: "O Boticário", link: "https://www.boticario.com.br" }
-    ]
-  },
-  {
-    id: "academia",
-    title: "👟 Roupas de Academia & Tênis",
-    img: "imagens/presente-academia.png",
-    items: [
-      { name: "Decathlon", link: "https://www.decathlon.com.br" },
-      { name: "Centauro", link: "https://www.centauro.com.br" },
-      { name: "Track&Field", link: "https://www.trackfield.com.br" },
-      { name: "Lupo", link: "https://www.lupo.com.br" },
-      { name: "Donna di Ferro", link: "https://www.instagram.com/donnadiferro/" },
-      { name: "Donna Carioca", link: "https://www.instagram.com/donnacarioca/" },
-      { name: "Alo", link: "https://www.aloyoga.com" }
-    ]
-  },
-  {
-    id: "pix",
-    title: "💝 Pix",
-    img: "imagens/pix_qrcode.png",
-    items: [
-      { name: "Pix (QR Code) — obrigado! 💖", link: "#" }
-    ]
-  },
-  {
-    id: "livros",
-    title: "📚 Livros",
-    img: "imagens/presente-livros.png",
-    full: true,
-    reservable: true,
-    items: [
-      "Vale-livro (se preferir)",
-      "Sempre teremos verão",
-      "Manual de assassinato para boas garotas",
-      "Fazendo meu filme",
-      "A mecânica do amor",
-      "O príncipe cruel",
-      "O rei perverso",
-      "A culpa é das estrelas",
-      "Assistente do vilão",
-      "Mil beijos de um garoto",
-      "Um de nós está mentindo",
-      "Biblioteca da meia-noite",
-      "Confissão de uma garota mal-amada e um pouco dramática"
-    ]
+  const RESERVE_TOKEN = "UtdiUY6j5EeepnRqa083Z0vbm3";
+
+  const CATEGORIES = [
+    {
+      id: "ballet",
+      title: "🩰 Loja de Ballet",
+      img: "imagens/presente-ballet.png",
+      items: [
+        { name: "Loja Micca Ballet (@lojamiccaballet)", link: "https://www.instagram.com/lojamiccaballet/" },
+        { name: "Ballet & Cia (@balletciastore)", link: "https://www.instagram.com/balletciastore/" }
+      ]
+    },
+    {
+      id: "maquiagem",
+      title: "💄 Loja de Maquiagem",
+      img: "imagens/presente-maquiagem.png",
+      items: [
+        { name: "Sephora (Importada e Nacional)", link: "https://www.sephora.com.br" },
+        { name: "Maybelline NY", link: "https://www.maybelline.com.br" },
+        { name: "Quem Disse, Berenice?", link: "https://www.quemdisseberenice.com.br" },
+        { name: "O Boticário", link: "https://www.boticario.com.br" }
+      ]
+    },
+    {
+      id: "academia",
+      title: "👟 Roupas de Academia & Tênis",
+      img: "imagens/presente-academia.png",
+      items: [
+        { name: "Decathlon", link: "https://www.decathlon.com.br" },
+        { name: "Centauro", link: "https://www.centauro.com.br" },
+        { name: "Track&Field", link: "https://www.trackfield.com.br" },
+        { name: "Lupo", link: "https://www.lupo.com.br" },
+        { name: "Donna di Ferro", link: "https://www.instagram.com/donnadiferro/" },
+        { name: "Donna Carioca", link: "https://www.instagram.com/donnacarioca/" },
+        { name: "Alo", link: "https://www.aloyoga.com" }
+      ]
+    },
+    {
+      id: "pix",
+      title: "💝 Pix",
+      img: "imagens/pix_qrcode.png",
+      items: [{ name: "Pix (QR Code) — obrigado! 💖", link: "#" }]
+    },
+    {
+      id: "livros",
+      title: "📚 Livros",
+      img: "imagens/presente-livros.png",
+      full: true,
+      items: []
+    }
+  ];
+
+  async function fetchBooks() {
+    const res = await fetch(`${BASE_URL}?action=presentes`, { method: "GET" });
+    if (!res.ok) throw new Error("Falha ao carregar a planilha.");
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "Erro no backend.");
+    return data.items;
   }
-];
 
-function getReserved() {
-  return localStorage.getItem(RESERVE_KEY);
-}
+  async function reserveBook(id) {
+    const body = new URLSearchParams({ action: "reserve", id, token: RESERVE_TOKEN });
 
-function setReserved(id) {
-  localStorage.setItem(RESERVE_KEY, id);
-}
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body
+    });
 
-function render() {
-  const grid = document.getElementById("giftGrid");
-  grid.innerHTML = "";
-  const reservedId = getReserved();
+    if (!res.ok) throw new Error("Falha ao reservar.");
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "Erro ao reservar.");
+    return data;
+  }
 
-  CATEGORIES.forEach(cat => {
-    const card = document.createElement("article");
-    card.className = "gift" + (cat.full ? " full" : "");
+  function render(categories, books) {
+    const grid = document.getElementById("giftGrid");
+    if (!grid) {
+      console.error('Não achei o elemento #giftGrid no HTML.');
+      return;
+    }
 
-    const itemsHtml = cat.items.map((it, index) => {
+    grid.innerHTML = "";
+
+    categories.forEach(cat => {
+      const card = document.createElement("article");
+      card.className = "gift" + (cat.full ? " full" : "");
+
+      let itemsHtml = "";
+
       if (cat.id === "livros") {
-        const isVoucher = String(it).toLowerCase().includes("vale-livro");
-        if (isVoucher) {
-          return `
-            <li class="item">
-              <div class="item-link single" role="group" aria-label="Vale-livro">
-                <p class="item-title">${it}</p>
-              </div>
-            </li>
-          `;
-        }
-
-        const itemId = cat.id + "_" + index;
-        const chosen = reservedId === itemId;
-        const disabled = reservedId && !chosen;
-
-        return `
+        itemsHtml += `
           <li class="item">
-            <div class="item-link" role="group" aria-label="${it}">
-              <p class="item-title">${it}</p>
-              <button class="reserve-btn ${chosen ? "chosen" : ""}" ${disabled ? "disabled" : ""} data-id="${itemId}" type="button">
-                ${chosen ? "Reservado" : "Reservar"}
-              </button>
+            <div class="item-link single" role="group" aria-label="Vale-livro">
+              <p class="item-title">Vale-livro (se preferir)</p>
             </div>
           </li>
         `;
+
+        itemsHtml += books.map(b => {
+          const disabled = !!b.reservado;
+          return `
+            <li class="item">
+              <div class="item-link" role="group" aria-label="${escapeHtml(b.item)}">
+                <p class="item-title">${escapeHtml(b.item)}</p>
+                <button
+                  class="reserve-btn ${disabled ? "chosen" : ""}"
+                  ${disabled ? "disabled" : ""}
+                  data-book-id="${escapeHtml(b.id)}"
+                  type="button"
+                >
+                  ${disabled ? "Reservado" : "Reservar"}
+                </button>
+              </div>
+            </li>
+          `;
+        }).join("");
+      } else {
+        itemsHtml = cat.items.map(it => `
+          <li class="item">
+            <a class="item-link" href="${it.link}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(it.name)}">
+              <p class="item-title">${escapeHtml(it.name)}</p>
+            </a>
+          </li>
+        `).join("");
       }
 
-      const name = it.name;
-      const link = it.link;
-
-      return `
-        <li class="item">
-          <a class="item-link" href="${link}" target="_blank" rel="noopener noreferrer" aria-label="${name}">
-            <p class="item-title">${name}</p>
-          </a>
-        </li>
+      card.innerHTML = `
+        <div class="gift-media"><img src="${cat.img}" alt="${escapeHtml(cat.title)}"></div>
+        <div class="gift-body">
+          <h3 class="gift-title">${escapeHtml(cat.title)}</h3>
+          <ul class="gift-list">${itemsHtml}</ul>
+        </div>
       `;
-    }).join("");
 
-    card.innerHTML = `
-      <div class="gift-media"><img src="${cat.img}" alt="${cat.title}"></div>
-      <div class="gift-body">
-        <h3 class="gift-title">${cat.title}</h3>
-        <ul class="gift-list">${itemsHtml}</ul>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
-
-  document.querySelectorAll(".reserve-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (getReserved()) return;
-      setReserved(btn.dataset.id);
-      render();
+      grid.appendChild(card);
     });
-  });
-}
 
-render();
+    document.querySelectorAll("[data-book-id]").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const id = btn.getAttribute("data-book-id");
+        btn.disabled = true;
+        const originalText = btn.textContent;
+        btn.textContent = "Reservando...";
+
+        try {
+          await reserveBook(id);
+          await boot();
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = originalText;
+          alert(err.message || "Não foi possível reservar.");
+        }
+      });
+    });
+  }
+
+  async function boot() {
+    try {
+      const books = await fetchBooks();
+      render(CATEGORIES, books);
+    } catch (err) {
+      console.error(err);
+      const grid = document.getElementById("giftGrid");
+      if (!grid) return;
+      grid.innerHTML = `
+        <article class="gift full">
+          <div class="gift-body">
+            <h3 class="gift-title">Erro ao carregar</h3>
+            <p class="item-title" style="opacity:.9">Não consegui ler a planilha. Verifique a URL do Web App e as permissões.</p>
+          </div>
+        </article>
+      `;
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (m) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[m]));
+  }
+
+  // ✅ Só roda quando o DOM estiver pronto
+  document.addEventListener("DOMContentLoaded", () => boot());
 </script>
+
 </body>
 </html>
