@@ -2,7 +2,7 @@ function initStarfield() {
     const sky = document.getElementById("sky");
     if (!sky) return;
 
-    let starCount = parseInt(sky.dataset.stars || "80", 10);
+    let starCount = parseInt(sky.dataset.stars || "90", 10);
 
     if (window.matchMedia("(max-width: 600px)").matches) {
     starCount = Math.round(starCount * 0.4);

@@ -256,6 +256,31 @@ input:checked {
 	}
 }
 
+@media (max-width: 600px) {
+
+  /* some com o overlay global no mobile (opcional) */
+  .overlay-convite{ display:none !important; }
+
+  .book .page.cover{
+    background-image:
+      url("../imagens/convite3.png"),
+      radial-gradient(circle at 25% 25%, rgba(255, 245, 210, .55), transparent 45%),
+      radial-gradient(circle at 75% 35%, rgba(255, 225, 150, .45), transparent 55%),
+      radial-gradient(circle at 50% 120%, rgba(180, 120, 20, .85), transparent 60%),
+      linear-gradient(135deg, #f1b84a, #dc9426) !important;
+
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat !important;
+    background-position: center, center, center, center, center !important;
+
+    /* 1ª camada (imagem) = cover; demais não precisam */
+    background-size: cover, auto, auto, auto, auto !important;
+  }
+
+  .cover-name{
+    display: none !important;
+  }
+}
+
 .cover {
 	position: absolute;
 	overflow: hidden;
