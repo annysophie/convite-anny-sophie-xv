@@ -43,6 +43,25 @@
       return;
     }
 
+    if (nameInput.dataset.valid !== "1") {
+      msg.textContent = "Selecione seu nome na lista de sugestões.";
+      nameInput.focus();
+      return;
+    }
+
+    const companionInputs = Array.from(document.querySelectorAll("#companionsList input"));
+
+    for (const inp of companionInputs) {
+      const v = inp.value.trim();
+      if (!v) continue;
+
+      if (inp.dataset.valid !== "1") {
+        msg.textContent = "Selecione o acompanhante na lista de sugestões.";
+        inp.focus();
+        return;
+      }
+    }
+
     const companions = Array.from(
       document.querySelectorAll("#companionsList input")
     )
@@ -106,12 +125,19 @@
       <button type="button" class="remove-companion">✕</button>
     `;
 
-    row.querySelector(".remove-companion").addEventListener("click", () => {
+    const input = row.querySelector("input");
+    const removeBtn = row.querySelector(".remove-companion");
+
+    // começa inválido até selecionar da lista
+    input.dataset.valid = "0";
+
+    removeBtn.addEventListener("click", () => {
       row.remove();
+      count = Math.max(0, count - 1);
     });
 
     list.appendChild(row);
-    row.querySelector("input").focus();
+    input.focus();
   }
 
   addBtn.addEventListener("click", addCompanionInput);
@@ -155,6 +181,8 @@
 
   function render(list) {
     box.innerHTML = "";
+    activeIndex = -1;
+
     list.forEach((name, idx) => {
       const li = document.createElement("li");
       li.textContent = name;
@@ -170,6 +198,9 @@
   function select(idx) {
     if (!activeInput || !items[idx]) return;
     activeInput.value = items[idx];
+
+    activeInput.dataset.valid = "1";
+
     close();
     activeInput.focus();
   }
@@ -190,11 +221,18 @@
   document.addEventListener("focusin", e => {
     if (e.target.classList.contains("js-autocomplete")) {
       activeInput = e.target;
+
+      if (!activeInput.dataset.valid) activeInput.dataset.valid = "0";
+
       update();
     }
   });
 
   document.addEventListener("input", e => {
+    if (e.target.classList.contains("js-autocomplete")) {
+      e.target.dataset.valid = "0";
+    }
+
     if (e.target === activeInput) update();
   });
 

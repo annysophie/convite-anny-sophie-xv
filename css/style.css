@@ -222,6 +222,14 @@ body {
   opacity: .9;
 }
 
+@media (max-width: 768px) {
+  .page .tag-pagina{
+    width: 140px;
+    right: 15px;
+    bottom: 40px;
+  }
+}
+
 input[type=radio] {
 	display: none;
 }
