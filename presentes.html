@@ -181,6 +181,24 @@
       border-color: rgba(180,200,255,.4);
       opacity: 1;
     }
+
+    .item-section-title{
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,235,180,.95);
+      margin: 10px 0 6px;
+      opacity: .95;
+    }
+
+    .item-divider{
+      height: 1px;
+      background: rgba(180,200,255,.16);
+      margin: 10px 0;
+      border-radius: 999px;
+    }
   </style>
 </head>
 
@@ -195,69 +213,103 @@
 </main>
 
 <script>
-  // Use URL BASE (sem ?action fixo)
   const BASE_URL = "https://script.google.com/macros/s/AKfycbzRnl7rCtrbF8yR5o6FFlZSzElwzglI90ebJsAm6luJzUg22PVGbspdIGQORiAvhcWh/exec";
 
   const RESERVE_TOKEN = "UtdiUY6j5EeepnRqa083Z0vbm3";
 
   const CATEGORIES = [
     {
+      id: "livros",
+      title: "📚 Livros",
+      img: "imagens/presente-livros.png",
+      // full: true,
+      items: []
+    },
+    {
+      id: "pix",
+      title: "📸 Operação Câmera Fotográfica",
+      img: "presente-pix.jpeg",
+      items: []
+    },
+    {
       id: "ballet",
-      title: "🩰 Loja de Ballet",
+      title: "🩰 Ballet",
       img: "imagens/presente-ballet.png",
-      items: [
-        { name: "Loja Micca Ballet (@lojamiccaballet)", link: "https://www.instagram.com/lojamiccaballet/" },
-        { name: "Ballet & Cia (@balletciastore)", link: "https://www.instagram.com/balletciastore/" }
-      ]
+      items: {
+        lojas: [
+          { name: "Loja Micca Ballet (@lojamiccaballet)", link: "https://www.instagram.com/lojamiccaballet/" },
+          { name: "Ballet & Cia (@balletciastore)", link: "https://www.instagram.com/balletciastore/" }
+        ],
+        produtos: [
+          { name: "Sapatilha meia ponta tamanho 37/38" },
+          { name: "Collant" },
+          { name: "Meia calça salmão" },
+          { name: "Adereços para cabelo" },
+          { name: "Saia" }
+        ]
+      }
+    },
+    {
+      id: "academia",
+      title: "👟 Roupas de Academia & Tênis",
+      img: "imagens/presente-tenis.jpeg",
+      items: {
+        lojas: [
+          { name: "Live Fit" },
+          { name: "Decathlon Ribeirão Preto", link: "https://www.decathlon.com.br" },
+          { name: "Centauro", link: "https://www.centauro.com.br" },
+          { name: "Track&Field", link: "https://www.trackfield.com.br" },
+          { name: "Lupo", link: "https://www.lupo.com.br" },
+          { name: "Donna di Ferro (@donnadiferro)", link: "https://www.instagram.com/donnadiferro/" },
+          { name: "Donna Carioca (@donnacarioca)", link: "https://www.instagram.com/donnacarioca/" },
+          { name: "Alo", link: "https://www.aloyoga.com" },
+          { name: "Melissa", link: "https://www.melissa.com.br" },
+          { name: "C&A", link: "https://www.cea.com.br" },
+          { name: "Renner", link: "https://www.lojasrenner.com.br" },
+          { name: "Riachuelo", link: "https://www.riachuelo.com.br" },
+          { name: "Pernambucanas", link: "https://www.pernambucanas.com.br" }
+        ],
+        produtos: [
+          { name: "Vestido (tamanho P)" },
+          { name: "Short (tamanho P)" },
+          { name: "Blusas (tamanho P)" },
+          { name: "Camisetas (tamanho P)" },
+          { name: "Tênis (35/36)" },
+          { name: "Tênis esportivo (35/36)" },
+          { name: "Sandália (35/36)" }
+        ]
+      }
     },
     {
       id: "maquiagem",
       title: "💄 Loja de Maquiagem",
       img: "imagens/presente-maquiagem.png",
       items: [
-        { name: "Sephora (Importada e Nacional)", link: "https://www.sephora.com.br" },
-        { name: "Maybelline NY", link: "https://www.maybelline.com.br" },
+        { name: "Maquiagem Importada e Nacional na Sephora", link: "https://www.sephora.com.br" },
+        { name: "Maybelline NY Ribeirão Shopping", link: "https://www.maybelline.com.br" },
         { name: "Quem Disse, Berenice?", link: "https://www.quemdisseberenice.com.br" },
         { name: "O Boticário", link: "https://www.boticario.com.br" }
       ]
     },
     {
-      id: "academia",
-      title: "👟 Roupas de Academia & Tênis",
-      img: "imagens/presente-academia.png",
+      id: "acessorios",
+      title: "👜 Acessórios",
+      img: "imagens/presente-acessorios.jpg",
       items: [
-        { name: "Decathlon", link: "https://www.decathlon.com.br" },
-        { name: "Centauro", link: "https://www.centauro.com.br" },
-        { name: "Track&Field", link: "https://www.trackfield.com.br" },
-        { name: "Lupo", link: "https://www.lupo.com.br" },
-        { name: "Donna di Ferro", link: "https://www.instagram.com/donnadiferro/" },
-        { name: "Donna Carioca", link: "https://www.instagram.com/donnacarioca/" },
-        { name: "Alo", link: "https://www.aloyoga.com" }
+        { name: "Anel (tamanho 16 ou 17)"},
+        { name: "Colar"},
+        { name: "Pulseira"},
+        { name: "Relógio"},
+        { name: "Fone"}
       ]
-    },
-    {
-      id: "pix",
-      title: "💝 Pix",
-      img: "imagens/pix_qrcode.png",
-      items: []
-    },
-    {
-      id: "livros",
-      title: "📚 Livros",
-      img: "imagens/presente-livros.png",
-      full: true,
-      items: []
     }
   ];
 
   function applyDisableIfAnyReserved(books) {
-    const anyReserved = books.some(b => !!b.reservado);
-
-    // Se tiver algum reservado, desabilita todos os botões que NÃO são reservados
     document.querySelectorAll("[data-book-id]").forEach(btn => {
       const isAlreadyReserved = btn.classList.contains("chosen") || btn.textContent.trim() === "Reservado";
 
-      if (anyReserved && !isAlreadyReserved) {
+      if (!isAlreadyReserved) {
         btn.disabled = true;
         btn.textContent = "Reservar";
         btn.classList.remove("chosen");
@@ -305,13 +357,11 @@
 
       if (cat.id === "pix") {
         itemsHtml = `
-          <li class="item">
-            <div class="item-link single" style="text-align:center; gap:14px">
+            <div class="item-link single" role="group" style="text-align:center; gap:14px">
 
-              <p class="item-title" style="font-size:14px; line-height:1.5">
-                Se desejar presentear, preparamos uma forma prática e especial.<br>
-                Sua lembrança fará parte desse momento inesquecível ✨
-              </p>
+              <center>
+                <img src="imagens/presente-pix.jpeg" alt="Pix" style="width: 90%">
+              </center>
 
               <div id="qrcode" style="margin:16px auto"></div>
               <p class="item-title" style="opacity:.85">Aponte a câmera para o QR Code</p>
@@ -340,13 +390,23 @@
               </div>
 
             </div>
-          </li>
         `;
       } else if (cat.id === "livros") {
         itemsHtml += `
           <li class="item">
-            <div class="item-link single" role="group" aria-label="Vale-livro">
-              <p class="item-title">Vale-livro (se preferir)</p>
+            <div class="item-link single" role="group" aria-label="Vale-livro" style="color: #fff !important;">
+              <p class="item-title">Alguns livros que adoraria ganhar:</p>
+
+                <ul class="item-list">
+                  <li>Romance</li>
+                  <li>Suspense</li>
+                  <li>Fantasia</li>
+                  <li>Comédia</li>
+                </ul>
+
+                <p>Ou, se preferir, pode me dar um vale-livro.
+              </p>
+
             </div>
           </li>
         `;
@@ -369,14 +429,44 @@
             </li>
           `;
         }).join("");
-      } else {
-        itemsHtml = cat.items.map(it => `
+       } else {
+        const isGrouped = cat.items && !Array.isArray(cat.items) && (cat.items.lojas || cat.items.produtos);
+
+        // Função pra renderizar uma lista
+        const renderList = (arr) => (arr || []).map(it => `
           <li class="item">
             <a class="item-link" href="${it.link}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(it.name)}">
               <p class="item-title">${escapeHtml(it.name)}</p>
             </a>
           </li>
         `).join("");
+
+        if (isGrouped) {
+          const lojas = cat.items.lojas || [];
+          const produtos = cat.items.produtos || [];
+
+          itemsHtml = `
+            ${produtos.length ? `<li class="item" style="border:none;background:transparent">
+              <div class="item-section-title">Sugestões</div>
+            </li>` : ""}
+
+            ${renderList(produtos)}
+
+            ${(lojas.length && produtos.length) ? `<li class="item" style="border:none;background:transparent">
+              <div class="item-divider"></div>
+            </li>` : ""}
+
+            ${lojas.length ? `<li class="item" style="border:none;background:transparent">
+              <div class="item-section-title">Lojas</div>
+            </li>` : ""}
+
+            ${renderList(lojas)}
+
+          `;
+        } else {
+          // compatível com o jeito antigo: items: [...]
+          itemsHtml = renderList(cat.items);
+        }
       }
 
       card.innerHTML = `
@@ -422,7 +512,7 @@
       const books = await fetchBooks();
       render(CATEGORIES, books);
 
-      applyDisableIfAnyReserved(books);
+      // applyDisableIfAnyReserved(books);
 
       setTimeout(() => {
         const qr = document.getElementById("qrcode");
@@ -462,7 +552,6 @@
     }[m]));
   }
 
-  // ✅ Só roda quando o DOM estiver pronto
   document.addEventListener("DOMContentLoaded", () => boot());
 
   const PIX_COPIA_E_COLA = "00020126910014BR.GOV.BCB.PIX0136ba6cff55-8df0-46ae-ac42-99e52b8849530229Para Anny Sophie com carinho,5204000053039865802BR5925Suelen Alcantara de Faria6009SAO PAULO62140510dXyGznW2vL63040035";
